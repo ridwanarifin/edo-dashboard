@@ -4,6 +4,10 @@
   "description": "Dashboard SCL",
   "private": true,
   "author": "ridwan <ridwanarifin@pm.me>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ridwanarifin/scl-dashboard.git"
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
