@@ -8,7 +8,8 @@ export {
   HeaderTableConsignee,
   HeaderTablePortOfLoading,
   HeaderTablePortOfDischarge,
-  HeaderTableFinalDestination
+  HeaderTableFinalDestination,
+  HeaderTabSupervisorEDO
 } from './headers'
 
 export const getColorStatus = (params) => {

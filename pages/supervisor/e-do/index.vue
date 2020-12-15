@@ -307,7 +307,6 @@
 <script>
 import _ from 'lodash'
 import CardListStatusEdo from '@/components/CardListStatusEdo.vue'
-
 import {
   getColorStatus,
   HeaderTabSupervisorEDO

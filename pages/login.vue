@@ -94,12 +94,13 @@ export default {
         this.isSubmiting = true
         this.$toast.global.app_loading()
         await this.$store.dispatch('UserLogin', this.forms)
+        this.$toast.clear()
       } catch (error) {
         const msg = error.response.data && ', ' + error.response.data.message
+        this.$toast.clear()
         this.$toast.global.app_error('Login failed' + msg)
       } finally {
         this.isSubmiting = false
-        this.$toast.clear()
       }
     }
   },
