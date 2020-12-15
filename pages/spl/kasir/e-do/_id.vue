@@ -23,7 +23,7 @@
       <!-- Card Status e-DO -->
       <v-col cols="12" sm="6">
         <v-skeleton-loader v-if="$fetchState.pending" loading type="image" min-width="90" height="104" />
-        <card-status-edo
+        <card-secondary-status-edo
           v-else
           :color="card.color"
           :icon="card.icon"
