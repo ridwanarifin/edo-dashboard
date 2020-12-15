@@ -141,7 +141,7 @@ export default {
         this.result = await result
       } finally {
         this.showLoading = false
-        this.$router.push(`/admin/e-do/${this.result}`)
+        this.$router.push(`/spl/admin/e-do/${this.result}`)
       }
     },
 

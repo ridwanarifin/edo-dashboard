@@ -130,7 +130,7 @@ export default {
         this.result = await result
       } finally {
         this.showLoading = false
-        this.$router.push(`/kasir/e-do/${this.result}`)
+        this.$router.push(`/spl/kasir/e-do/${this.result}`)
       }
     },
 
