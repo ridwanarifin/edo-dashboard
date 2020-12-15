@@ -47,7 +47,7 @@
           <v-tab-item>
             <v-container class="pt-10">
               <validation-observer v-slot="{ invalid, handleSubmit }">
-                <form @submit.prevent="handleSubmit($router.push(`/kasir/e-do/${edoNumberField}`))">
+                <form @submit.prevent="handleSubmit($router.push(`/spl/kasir/e-do/${edoNumberField}`))">
                   <label for="edoNumber">Input e-DO number</label>
                   <validation-provider v-slot="{ valid, errors }" name="e-do number" rules="required">
                     <v-text-field
@@ -87,7 +87,7 @@ export default {
   },
   middleware ({ store, redirect }) {
     if (store.state.auth.role === 'adminspl') {
-      return redirect('/admin')
+      return redirect('/spl/admin')
     }
   },
 
