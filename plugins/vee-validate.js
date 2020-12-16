@@ -22,7 +22,7 @@ extend('required', {
 
 extend('email', {
   ...email,
-  message: 'E-mail is not valid.'
+  message: '{_field_} is not valid.'
 })
 
 extend('numeric', {

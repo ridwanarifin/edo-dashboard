@@ -5,76 +5,96 @@
         {{ error }}
       </v-alert>
     </v-col>
-    <v-col cols="12" sm="8">
-      <div class="text-center">
-        <v-tabs grow background-color="transparent">
-          <v-tab>Scan e-DO</v-tab>
-          <v-tab>Input e-DO</v-tab>
 
-          <v-tab-item>
-            <v-container class="pt-10">
-              <v-row v-if="isQrcode">
-                <template v-show="!result">
-                  <qrcode-drop-zone @decode="onDecode" @init="logErrors">
-                    <qrcode-stream @decode="onDecode" @init="onInit" />
-                  </qrcode-drop-zone>
+    <v-col v-if="!$vuetify.breakpoint.mobile" cols="12">
+      <v-row align="center" justify="center">
+        <v-col cols="12" sm="8" md="6">
+          <div class="text-center">
+            <v-tabs
+              v-model="tabs"
+              background-color="transparent"
+              grow
+            >
+              <v-tab href="#scan">
+                Scan e-DO
+              </v-tab>
+              <v-tab href="#input">
+                Input e-DO
+              </v-tab>
+            </v-tabs>
+          </div>
+        </v-col>
+        <v-col cols="12" sm="8" class="text-center">
+          <v-tabs-items v-model="tabs">
+            <v-tab-item value="scan" class="pt-10">
+              <scan-edo
+                :show="result"
+                :show-loading="showLoading"
+                :is-qrcode="isQrcode"
+                :no-stream-api-support="noStreamApiSupport"
+                @on-decode="onDecode"
+                @stream-init="onInit"
+                @drop-zone-init="logErrors"
+                @click-scan="_handleClickMe"
+              />
+            </v-tab-item>
 
-                  <qrcode-capture v-if="noStreamApiSupport" @decode="onDecode" />
-                </template>
-                <v-progress-circular v-show="showLoading" :indeterminate="showLoading" />
-              </v-row>
+            <v-tab-item value="input" class="pt-10">
+              <input-edo />
+            </v-tab-item>
+          </v-tabs-items>
+        </v-col>
+      </v-row>
+    </v-col>
 
-              <v-hover v-else v-slot="{hover}">
-                <v-img
-                  :src="require('@/assets/img/1.png')"
-                  :lazy-src="require('@/assets/img/1.png')"
-                  aspect-ratio="16/9"
-                  max-width="348"
-                  height="348"
-                  class="mx-auto"
-                  ripple
-                >
-                  <v-expand-transition>
-                    <div v-if="hover" class="d-flex text-h4 transition-ease-in-out primary darken-2 v-card--reveal" style="height: 80%; color: white" @click.prevent="_handleClickMe">
-                      Click me to scan
-                    </div>
-                  </v-expand-transition>
-                </v-img>
-              </v-hover>
-            </v-container>
-          </v-tab-item>
+    <v-col v-else cols="12" class="py-0">
+      <v-row align="center" justify="center">
+        <v-col v-show="bottomNav === 'scan'" cols="12">
+          <scan-edo
+            :show="result"
+            :show-loading="showLoading"
+            :is-qrcode="isQrcode"
+            :no-stream-api-support="noStreamApiSupport"
+            @on-decode="onDecode"
+            @stream-init="onInit"
+            @drop-zone-init="logErrors"
+            @click-scan="_handleClickMe"
+          />
+        </v-col>
 
-          <v-tab-item>
-            <v-container class="pt-10">
-              <validation-observer v-slot="{ invalid, handleSubmit }">
-                <form @submit.prevent="handleSubmit($router.push(`/spl/kasir/e-do/${edoNumberField}`))">
-                  <label for="edoNumber">Input e-DO number</label>
-                  <validation-provider v-slot="{ valid, errors }" name="e-do number" rules="required">
-                    <v-text-field
-                      id="edoNumber"
-                      v-model="edoNumberField"
-                      class="my-3"
-                      :success="valid"
-                      :error-messages="errors"
-                      solo
-                      required
-                      clearable
-                    />
-                  </validation-provider>
-                  <v-btn type="submit" :disabled="invalid" color="primary">
-                    Process
-                  </v-btn>
-                </form>
-              </validation-observer>
-            </v-container>
-          </v-tab-item>
-        </v-tabs>
-      </div>
+        <v-col v-show="bottomNav === 'input'" cols="12">
+          <input-edo />
+        </v-col>
+
+        <v-bottom-navigation
+          v-model="bottomNav"
+          dark
+          shift
+          absolute
+          background-color="blue darken-1"
+        >
+          <v-btn value="scan">
+            <span>Scan</span>
+            <v-icon v-text="icons.scan" />
+          </v-btn>
+
+          <v-btn value="input">
+            <span>Input e-DO</span>
+            <v-icon v-text="icons.input" />
+          </v-btn>
+        </v-bottom-navigation>
+      </v-row>
     </v-col>
   </v-row>
 </template>
 
 <script>
+import {
+  mdiQrcodeScan,
+  mdiNoteSearch
+} from '@mdi/js'
+import ScanEdo from '~/components/ScanEdo.vue'
+import InputEdo from '~/components/InputEdo.vue'
 
 export default {
   layout: 'spl',
@@ -85,27 +105,24 @@ export default {
       text: 'Dashboard'
     }]
   },
-  middleware ({ store, redirect }) {
-    if (store.state.auth.role === 'adminspl') {
-      return redirect('/spl/admin')
-    }
-  },
-
+  components: { ScanEdo, InputEdo },
   data () {
     return {
-      isSubmiting: false,
-      edoNumberField: '',
-
-      isQrcode: false,
-      noStreamApiSupport: false,
       result: '',
-      showLoading: false,
-
+      isQrcode: false,
       alertShow: false,
-      error: ''
+      showLoading: false,
+      noStreamApiSupport: false,
+
+      error: '',
+      tabs: 'scan',
+      bottomNav: 'scan',
+      icons: {
+        scan: mdiQrcodeScan,
+        input: mdiNoteSearch
+      }
     }
   },
-
   watch: {
     alertShow (val) {
       if (!val) { return }
@@ -114,7 +131,6 @@ export default {
       }, 9000)
     }
   },
-
   methods: {
     _handleClickMe (e) {
       if (this.alertShow) {
@@ -130,7 +146,7 @@ export default {
         this.result = await result
       } finally {
         this.showLoading = false
-        this.$router.push(`/spl/kasir/e-do/${this.result}`)
+        this.$router.push(`/spl/kasir/e-do/detail/${this.result}`)
       }
     },
 
@@ -163,6 +179,14 @@ export default {
           this.isQrcode = false
         }
       }
+    }
+  },
+  head: {
+    title: 'Kasir - SPL e-DO'
+  },
+  middleware ({ store, redirect }) {
+    if (store.state.auth.role === 'adminspl') {
+      return redirect('/spl/admin')
     }
   }
 }

@@ -1,3 +1,6 @@
+<!-- eslint-disable -->
+<template>
+</template>
 <script>
 export default {
   mounted () {

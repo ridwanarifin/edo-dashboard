@@ -11,7 +11,7 @@
     >
       <v-row no-gutters justify="space-between" align="center" class="container mx-auto">
         <v-col cols="auto">
-          <v-btn text large to="/" replace>
+          <v-btn text large nuxt replace to="/">
             SPL LOGO
           </v-btn>
         </v-col>
@@ -25,7 +25,7 @@
                 </div>
               </v-col>
               <v-col cols="auto" class="hidden-xs-only">
-                <v-btn text nuxt to="/setting">
+                <v-btn text nuxt to="/spl/setting">
                   Setting <v-icon class="ml-3">
                     mdi-cog
                   </v-icon>
@@ -78,7 +78,7 @@
         </v-list-item>
       </v-list-item>
       <v-list>
-        <v-list-item nuxt to="/setting">
+        <v-list-item nuxt to="/spl/setting">
           <v-list-item-action>
             <v-icon>
               mdi-cog
@@ -106,10 +106,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-footer
-      :absolute="!fixed"
-      app
-    >
+    <v-footer :absolute="!fixed" app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
@@ -123,18 +120,6 @@ export default {
     return {
       clipped: false,
       fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
-      ],
       miniVariant: false,
       rightDrawer: false,
       title: 'SPL LOGO'

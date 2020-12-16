@@ -1,14 +1,14 @@
 <template>
   <div class="px-5 py-5">
-    <v-row>
-      <!-- Alert Status e-DO -->
+    <!-- Alert Status e-DO -->
+    <v-row align="center" justify="center">
       <v-col cols="12">
         <template>
           <v-alert
             v-show="alert.show"
-            :icon="alert.icon"
             :type="alert.type"
             width="calc(100vw - 200)"
+            :icon="alert.icon"
             transition="slide-x-reverse-transition"
             outlined
           >
@@ -16,22 +16,25 @@
           </v-alert>
         </template>
       </v-col>
-      <!-- end Alert Status e-DO -->
     </v-row>
+    <!-- end Alert -->
 
-    <v-row>
-      <!-- Card Status e-DO -->
-      <v-col cols="12" sm="6">
-        <v-skeleton-loader v-if="$fetchState.pending" loading type="image" min-width="90" height="104" />
-        <card-secondary-status-edo
-          v-else
-          :color="card.color"
-          :icon="card.icon"
-          :title="card.title"
-          :status="card.status"
-        />
+    <!-- Action Released -->
+    <v-row class="mt-sm-8">
+      <v-col cols="12" md="sm">
+        <v-btn
+          :dark="isCanPickedUp"
+          color="#BB6BD9"
+          class="mr-3"
+          :disabled="!isCanPickedUp"
+          :loading="$fetchState.pending"
+          @click.prevent="handle_picked_up"
+        >
+          Released this e-DO <v-icon class="ml-2">
+            mdi-truck
+          </v-icon>
+        </v-btn>
       </v-col>
-      <!-- end Card Status e-DO -->
     </v-row>
 
     <v-row>
@@ -47,7 +50,6 @@
               {{ created_at_formated }}
             </div>
           </v-col>
-          <!-- end Created At -->
 
           <!-- Created By -->
           <v-col cols="12" sm>
@@ -59,7 +61,6 @@
               {{ edo.created_by }}
             </div>
           </v-col>
-          <!-- end Created By -->
 
           <!-- Status e-DO -->
           <v-col cols="12" sm>
@@ -71,7 +72,6 @@
               {{ edo.status }}
             </div>
           </v-col>
-          <!-- end Status e-DO -->
         </v-row>
       </v-col>
 
@@ -84,19 +84,16 @@
             :value="edo.edo_number"
             :options="{width: 80, height: 80}"
           />
-          <!-- end QrCode -->
-
-          <!-- e-DO Number -->
           <div class="ml-3 d-flex flex-column justify-center">
+            <!-- e-DO Number -->
             <div class="label">
               e-DO Number
             </div>
-            <v-skeleton-loader v-if="$fetchState.pending" loading type="text" />
+            <v-skeleton-loader v-if="!edo.status" loading type="text" />
             <div v-else class="font-weight-bold">
               {{ edo.edo_number }}
             </div>
           </div>
-          <!-- end e-DO Number -->
         </v-row>
       </v-col>
     </v-row>
@@ -105,7 +102,7 @@
     <v-row>
       <v-col>
         <v-row>
-          <!-- Shipper name -->
+          <!-- Shipper Name -->
           <v-col cols="12" sm>
             <div class="label">
               Shipper name
@@ -115,9 +112,8 @@
               {{ edo. shipper_name }}
             </div>
           </v-col>
-          <!-- end Shipper name -->
 
-          <!-- Consignee name -->
+          <!-- Consignee Name -->
           <v-col cols="12" sm>
             <div class="label">
               Consignee name
@@ -127,11 +123,10 @@
               {{ edo. consignee_name }}
             </div>
           </v-col>
-          <!-- end Consignee name -->
         </v-row>
 
         <v-row>
-          <!-- Shipper e-mail -->
+          <!-- Shipper e-Mail -->
           <v-col cols="12" sm>
             <div class="label">
               Shipper e-mail
@@ -141,9 +136,8 @@
               {{ edo. shipper_email || '-' }}
             </div>
           </v-col>
-          <!-- end Shipper e-mail -->
 
-          <!-- Consignee e-mail -->
+          <!-- Consignee e-Mail -->
           <v-col cols="12" sm>
             <div class="label">
               Consignee e-mail
@@ -153,11 +147,10 @@
               {{ edo. consignee_email }}
             </div>
           </v-col>
-          <!-- end Consignee e-mail -->
         </v-row>
 
         <v-row>
-          <!-- Shipper address -->
+          <!-- Shipper Address -->
           <v-col cols="12" sm>
             <div class="label">
               Shipper address
@@ -167,9 +160,8 @@
               {{ edo. shipper_address }}
             </div>
           </v-col>
-          <!-- end Shipper address -->
 
-          <!-- Consignee address -->
+          <!-- Consignee Adress -->
           <v-col cols="12" sm>
             <div class="label">
               Consignee address
@@ -179,7 +171,6 @@
               {{ edo. consignee_address }}
             </div>
           </v-col>
-          <!-- end Consignee address -->
         </v-row>
 
         <v-row>
@@ -193,7 +184,6 @@
               {{ edo. notify }}
             </div>
           </v-col>
-          <!-- end Notify -->
 
           <!-- House BL Number -->
           <v-col cols="12" sm>
@@ -205,11 +195,10 @@
               {{ edo. house_bl_number }}
             </div>
           </v-col>
-          <!-- end House BL Number -->
         </v-row>
 
         <v-row>
-          <!-- Notify address -->
+          <!-- Notify Address -->
           <v-col cols="12" sm>
             <div class="label">
               Notify Address
@@ -219,11 +208,10 @@
               {{ edo. notify }}
             </div>
           </v-col>
-          <!-- end Notify address -->
         </v-row>
 
         <v-row>
-          <!-- MBL number -->
+          <!-- MB/L Number -->
           <v-col cols="12" sm>
             <div class="label">
               MB/L Number
@@ -233,9 +221,8 @@
               {{ edo. mbl_number }}
             </div>
           </v-col>
-          <!-- end MBL number -->
 
-          <!-- House BL date -->
+          <!-- House BL Date -->
           <v-col cols="12" sm>
             <div class="label">
               House BL Date
@@ -245,11 +232,10 @@
               {{ edo. house_bl_date }}
             </div>
           </v-col>
-          <!-- end House BL date -->
         </v-row>
 
         <v-row>
-          <!-- Arrival date -->
+          <!-- Arrival Date (ETA) -->
           <v-col cols="12" sm>
             <div class="label">
               Arrival Date (ETA)
@@ -259,9 +245,8 @@
               {{ edo. arrival_date }}
             </div>
           </v-col>
-          <!-- end Arrival date -->
 
-          <!-- Place of receipt -->
+          <!-- Place Of Receipt -->
           <v-col cols="12" sm>
             <div class="label">
               Place of receipt
@@ -271,11 +256,10 @@
               {{ edo. place_of_receipt }}
             </div>
           </v-col>
-          <!-- end Place of receipt -->
         </v-row>
 
         <v-row>
-          <!-- Container seal number -->
+          <!-- Container Seal Number -->
           <v-col cols="12" sm>
             <div class="label">
               Container/Seal number
@@ -285,9 +269,8 @@
               {{ edo. container_seal_number }}
             </div>
           </v-col>
-          <!-- end Container seal number -->
 
-          <!-- Ocean vessel -->
+          <!-- Ocean Vessel -->
           <v-col cols="12" sm>
             <div class="label">
               Ocean vessel
@@ -297,23 +280,21 @@
               {{ edo. ocean_vessel }}
             </div>
           </v-col>
-          <!-- end Ocean vessel -->
         </v-row>
 
         <v-row>
-          <!-- Port of lading -->
+          <!-- Port Of Loading -->
           <v-col cols="12" sm>
             <div class="label">
-              Port of lading
+              Port of loading
             </div>
             <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
             <div v-else class="text-h5">
               {{ edo. port_of_loading }}
             </div>
           </v-col>
-          <!-- end Port of lading -->
 
-          <!-- Voyage number -->
+          <!-- Voyage Number -->
           <v-col cols="12" sm>
             <div class="label">
               Voyage Number
@@ -323,11 +304,10 @@
               {{ edo. voyage_number }}
             </div>
           </v-col>
-          <!-- end Voyage number -->
         </v-row>
 
         <v-row>
-          <!-- Final destination -->
+          <!-- Final Destination -->
           <v-col cols="12" sm>
             <div class="label">
               Final Destination
@@ -337,9 +317,8 @@
               {{ edo. final_destination }}
             </div>
           </v-col>
-          <!-- end Final destination -->
 
-          <!-- Port of discharges -->
+          <!-- Port Of Discharges -->
           <v-col cols="12" sm>
             <div class="label">
               Port of discharges
@@ -349,11 +328,10 @@
               {{ edo. port_of_discharges }}
             </div>
           </v-col>
-          <!-- end Port of discharges -->
         </v-row>
 
         <v-row>
-          <!-- Gross weight -->
+          <!-- Gross Weight -->
           <v-col cols="12" sm>
             <div class="label">
               Gross weight (Kg)
@@ -363,11 +341,10 @@
               {{ edo. gross_weight }} KGM
             </div>
           </v-col>
-          <!-- end Gross weight -->
         </v-row>
 
         <v-row>
-          <!-- Number of package -->
+          <!-- Number Of Package -->
           <v-col cols="12" sm>
             <div class="label">
               Number of Package
@@ -377,7 +354,6 @@
               {{ edo. number_of_package }}
             </div>
           </v-col>
-          <!-- end Number of package -->
 
           <!-- Measurement -->
           <v-col cols="12" sm>
@@ -389,11 +365,10 @@
               {{ edo. measurment }} M3
             </div>
           </v-col>
-          <!-- end Measurement -->
         </v-row>
 
         <v-row>
-          <!-- Description of goods -->
+          <!-- Description Of Goods -->
           <v-col cols="12" sm>
             <div class="label">
               Description of goods
@@ -403,9 +378,8 @@
               {{ edo. description_of_goods }}
             </div>
           </v-col>
-          <!-- end Description of goods -->
 
-          <!-- Marks and number -->
+          <!-- Marks And Number -->
           <v-col cols="12" sm>
             <div class="label">
               Marks and number
@@ -415,7 +389,6 @@
               {{ edo. marks_and_number }}
             </div>
           </v-col>
-          <!-- end Marks and number -->
         </v-row>
       </v-col>
     </v-row>
@@ -433,25 +406,22 @@
 <script>
 import _ from 'lodash'
 import { getColorStatus } from '@/utils'
-import * as Colors from '@/utils/colors'
 
 export default {
   layout: 'spl',
-  meta: {
-    crumbs: [{
+  middleware ({ route, store }) {
+    const crumbs = [{
       to: '/',
+      exact: true,
       text: 'Dashboard',
-      exact: true,
       replace: true
-      // disabled: false,
     }, {
-      to: '/kasir/e-do',
+      to: route.path,
       exact: true,
-      text: 'Detail e-DO',
-      disabled: true
+      text: 'Detail e-DO'
     }]
+    store.commit('breadcrumbs/setBreadcrumbs', crumbs)
   },
-
   async fetch () {
     try {
       this.$toast.global.app_loading()
@@ -468,7 +438,7 @@ export default {
       this.$toast.clear()
     }
   },
-
+  fetchOnServer: false,
   data () {
     return {
       edo: {},
@@ -476,37 +446,36 @@ export default {
       alert: {
         show: false,
         message: '',
-        icon: 'mdi-checkbox-marked-circle-outline',
-        type: 'success'
-      },
-      card: {
-        title: 'e-DO Status',
-        icon: '',
-        color: '',
-        status: ''
+        type: 'success',
+        icon: 'mdi-checkbox-marked-circle-outline'
       }
     }
   },
-  fetchOnServer: false,
-
   computed: {
     isNotEmpty () { return !_.isEmpty(this.edo) },
     isCanPickedUp () { return this.isNotEmpty && _.isEqual(this.edo.status, 'PAID') },
     created_at_formated () {
       const dateFormated = this.$moment(this.edo.created_at, 'DD-MM-YYYY hh:mm:ss', 'id')
-      return dateFormated.isValid() ? dateFormated.format('DD/MM/YYYY hh:mm:ss') : this.edo.created_at
+      return dateFormated.isValid() ? dateFormated.format('DD/MM/YYYY - hh:mm:ss') : this.edo.created_at
     }
   },
-
-  watch: {
-    edo (newVal) {
-      const { status } = newVal
-      this.get_card_status(status)
-    }
-  },
-
   methods: {
     colors (params) { return getColorStatus(params) },
+
+    async handle_picked_up (e) {
+      this.$toast.global.app_loading()
+      try {
+        const response = await this.$axios.put(`/api/e_do/picked_up/${this.edo.edo_id}`)
+        if (response) {
+          this.$toast.global.app_success(`e-DO ${this.edo.edo_number} successfully to picked up`)
+        }
+      } catch (err) {
+        this.$toast.global.app_error(`e-DO ${this.edo.edo_number} failed to picked up`, err.response.message)
+      } finally {
+        this.search_edo()
+      }
+    },
+
     async search_edo () {
       try {
         const response = await this.$axios.get(`/api/e_do/search?e_do_number=${this.$route.params.id}`)
@@ -516,32 +485,6 @@ export default {
         }
       } catch (err) {
         this.$toast.global.app_error('Failed to get e-DO' + err.response.message)
-      }
-    },
-    get_card_status (params) {
-      const context = _.upperCase(params)
-      this.card.status = _.isEqual('Hold on') ? 'On Hold' : _.capitalize(params)
-      switch (context) {
-        case 'PAID':
-          this.card.icon = 'mdi-checkbox-marked-circle-outline'
-          this.card.color = Colors.primary
-          break
-        case 'REJECTED':
-          this.card.icon = 'mdi-close-circle-outline'
-          this.card.color = Colors.danger
-          break
-        case 'RELEASED':
-          this.card.icon = 'mdi-truck-outline'
-          this.card.color = Colors.purple
-          break
-        case 'HOLD ON':
-          this.card.icon = 'mdi-delta'
-          this.card.color = Colors.warning
-          break
-        default:
-          this.card.icon = 'mdi-magnify'
-          this.card.color = Colors.link
-          break
       }
     }
   }

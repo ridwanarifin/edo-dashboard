@@ -103,7 +103,9 @@ export default {
   auth: {
     // Options
     cookie: {
-      sameSite: true
+      options: {
+        sameSite: true
+      }
     },
     strategies: {
       local: {

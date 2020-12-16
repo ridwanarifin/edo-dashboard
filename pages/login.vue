@@ -29,8 +29,8 @@
               class="mt-2"
               label="Email"
               :success="valid"
-              :loading="isSubmiting"
-              :disabled="isSubmiting"
+              :loading="pending"
+              :disabled="pending"
               :error-messages="errors"
               required
               outlined
@@ -45,8 +45,8 @@
               class="mt-2"
               label="Password"
               :success="valid"
-              :disabled="isSubmiting"
-              :loading="isSubmiting"
+              :disabled="pending"
+              :loading="pending"
               :error-messages="errors"
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               :type="show ? 'text' : 'password'"
@@ -62,10 +62,11 @@
             <v-btn
               large
               type="submit"
-              :disabled="isSubmiting"
-              :loading="isSubmiting"
+              :disabled="pending"
+              :loading="pending"
               class="align-self-end ml-auto"
-              color="primary">
+              color="primary"
+            >
               Login
             </v-btn>
           </v-card-actions>
@@ -84,23 +85,19 @@ export default {
       forms: {
         email: '',
         password: ''
-      },
-
-      isSubmiting: false
-    }
-  },
-
-  methods: {
-    on_submit () {
-      try {
-        this.isSubmiting = true
-        this.$store.dispatch('UserLogin', this.forms)
-      } finally {
-        this.isSubmiting = false
       }
     }
   },
-
+  computed: {
+    pending () {
+      return this.$store.state.pending
+    }
+  },
+  methods: {
+    on_submit () {
+      this.$store.dispatch('UserLogin', this.forms)
+    }
+  },
   head: {
     title: 'Authentication'
   }
