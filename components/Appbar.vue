@@ -1,7 +1,7 @@
 <template>
   <!-- <v-app-bar fixed flat tile app> -->
-  <v-sheet color="transparent" tile class="mt-sm-10">
-    <v-row align="center" justify="space-between" class="container--fluid mx-auto">
+  <v-container class="mx-auto mt-sm-10">
+    <v-row align="center" justify="space-between">
       <v-col cols="12" class="pb-0">
         <v-skeleton-loader type="chip" width="200px">
           <crumbs />
@@ -17,7 +17,7 @@
           <v-menu transition="slide-y-transition" offset-y open-on-hover close-on-content-click>
             <template #activator="{on, attrs}">
               <div class="text-h6 text-capitalize">
-                Hi, {{ $auth.hasScope("admin") ? 'superadmin' : $auth.hasScope("superadmin") ? 'superadmin' : 'admin' }} {{ $auth.user.name }}
+                Hi, {{ $auth.user.role }} {{ $auth.user.name }}
 
                 <v-btn icon v-bind="attrs" v-on="on">
                   <v-icon>mdi-chevron-down</v-icon>
@@ -41,7 +41,7 @@
         </v-skeleton-loader>
       </v-col>
     </v-row>
-  </v-sheet>
+  </v-container>
   <!-- </v-app-bar> -->
 </template>
 

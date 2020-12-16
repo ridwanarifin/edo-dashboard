@@ -12,9 +12,9 @@ export default {
       icon: mdiHomeOutline
     },
     {
-      title: 'User Management',
-      to: '/supervisor/e-do',
-      icon: mdiAccountMultipleOutline
+      title: 'Setting',
+      to: '/setting',
+      icon: mdiCogOutline
     }
   ],
   superadmin: [
@@ -27,7 +27,8 @@ export default {
       title: 'Setting',
       to: '/setting',
       icon: mdiCogOutline
-    }],
+    }
+  ],
   admin: [
     {
       title: 'Dashboard',

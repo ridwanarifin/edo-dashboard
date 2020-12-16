@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="px-md-5 py-5">
+  <div class="pa-5">
     <!-- dialo house bl number - paid -->
     <dialog-house-bl-number
       :loading="paidRejectLoading"
@@ -38,134 +38,149 @@
     />
     <!-- End On Hold -->
 
-    <!-- Alert Status e-DO -->
-    <v-alert
-      :outlined="alertStatus.outline"
-      transition="slide-x-reverse-transition"
-      :color="alertStatus.color"
-      :value="alertStatus.show"
-      :icon="alertStatus.icon"
-    >
-      {{ alertStatus.message }}
-    </v-alert>
-    <!-- end Alert Status e-DO -->
+    <v-container class="mx-auto">
+      <!-- Alert Status e-DO -->
+      <v-alert
+        :outlined="alertStatus.outline"
+        transition="slide-x-reverse-transition"
+        :color="alertStatus.color"
+        :value="alertStatus.show"
+        :icon="alertStatus.icon"
+      >
+        {{ alertStatus.message }}
+      </v-alert>
+      <!-- end Alert Status e-DO -->
 
-    <v-row align="center" class="mt-8">
-      <v-col cols="12" sm>
-        <!-- Action Print -->
-        <v-row align="center">
-          <v-col cols="12" sm="auto">
-            <v-btn :disabled="$fetchState.pending" :loading="$fetchState.pending" @click="crete_pdf">
-              Print <v-icon class="ml-2">
-                mdi-printer
-              </v-icon>
-            </v-btn>
-          </v-col>
+      <v-row align="center" class="mt-8">
+        <v-col cols="12" sm>
+          <!-- Action Print -->
+          <v-row align="center">
+            <v-col cols="12" sm="auto">
+              <v-btn :disabled="$fetchState.pending" :loading="$fetchState.pending" @click="crete_pdf">
+                <span>Print</span>
+                <v-icon class="ml-2">
+                  mdi-printer
+                </v-icon>
+              </v-btn>
+            </v-col>
 
-          <v-col cols="12" sm="auto">
-            <v-btn :dark="isCanPaid" color="#00D1B2" :disabled="$fetchState.pending || !isCanPaid" :loading="$fetchState.pending" @click.stop="paid.showHouseBLDialog = true">
-              Paid <v-icon class="ml-2">
-                mdi-checkbox-marked-circle-outline
-              </v-icon>
-            </v-btn>
-          </v-col>
+            <v-col cols="12" sm="auto">
+              <v-btn :dark="isCanPaid" color="#00D1B2" :disabled="$fetchState.pending || !isCanPaid" :loading="$fetchState.pending" @click.stop="paid.showHouseBLDialog = true">
+                <span>Paid</span>
+                <v-icon class="ml-2">
+                  mdi-checkbox-marked-circle-outline
+                </v-icon>
+              </v-btn>
+            </v-col>
 
-          <!-- Action Send to Consignee  -->
-          <v-col v-show="isCanSend" cols="12" sm="auto">
-            <v-btn dark color="#00D1B2" :loading="$fetchState.pending" link :href="`mailto:${edo.consignee_email}`">
-              Send to Consignee <v-icon class="ml-2">
-                mdi-checkbox-marked-circle-outline
-              </v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-col>
+            <!-- Action Send to Consignee  -->
+            <v-col v-show="isCanSend" cols="12" sm="auto">
+              <v-btn dark color="#00D1B2" :loading="$fetchState.pending" link :href="`mailto:${edo.consignee_email}`">
+                <span>Send to Consignee</span>
+                <v-icon class="ml-2">
+                  mdi-checkbox-marked-circle-outline
+                </v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-col>
 
-      <v-col class="text-right">
-        <!-- Action Hold -->
-        <v-btn class="mr-3" color="warning" :disabled="!isCanReissue" :loading="$fetchState.pending" @click.stop="onHold.showDialog = true">
-          Hold this e-DO <v-icon class="ml-2">
-            mdi-delta
-          </v-icon>
-        </v-btn>
+        <v-col cols="12" sm="auto" class="text-sm-right">
+          <v-row align="center" justify="space-between">
+            <v-col cols="12" sm="auto">
+              <!-- Action Hold -->
+              <v-btn class="mr-3" color="warning" :disabled="!isCanReissue" :loading="$fetchState.pending" @click.stop="onHold.showDialog = true">
+                <span>Hold this e-DO</span>
+                <v-icon class="ml-2">
+                  mdi-delta
+                </v-icon>
+              </v-btn>
+            </v-col>
 
-        <!-- Action Paid -->
-        <!-- <v-btn dark v-show="!iNotHoldOn" class="mr-3" color="#00D1B2" @click.stop="paid.showHouseBLDialog = true" :disabled="$fetchState.pending" :loading="$fetchState.pending">
-          Paid <v-icon class="ml-2">mdi-checkbox-marked-circle-outline</v-icon>
-        </v-btn> -->
+            <!-- Action Paid -->
+            <!-- <v-btn dark v-show="!iNotHoldOn" class="mr-3" color="#00D1B2" @click.stop="paid.showHouseBLDialog = true" :disabled="$fetchState.pending" :loading="$fetchState.pending">
+              Paid <v-icon class="ml-2">mdi-checkbox-marked-circle-outline</v-icon>
+            </v-btn> -->
 
-        <!-- Action Reject -->
-        <v-btn :dark="isCanReject" color="#FF3860" :disabled="!isCanReject" :loading="$fetchState.pending" @click.prevent="open_dialog_house_bl_reject">
-          Reject <v-icon class="ml-2">
-            mdi-close-circle-outline
-          </v-icon>
-        </v-btn>
-      </v-col>
-    </v-row>
+            <v-col cols="12" sm="auto">
+              <!-- Action Reject -->
+              <v-btn :dark="isCanReject" color="#FF3860" :disabled="!isCanReject" :loading="$fetchState.pending" @click.prevent="open_dialog_house_bl_reject">
+                <span>Reject</span>
+                <v-icon class="ml-2">
+                  mdi-close-circle-outline
+                </v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
 
-    <v-row align-md="center">
-      <v-col cols="12" sm="6">
-        <v-row no-gutters>
-          <!-- Created By e-DO -->
-          <v-col>
-            <div class="label">
-              Created At
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" loading type="table-cell" />
-            <div v-else class="font-weight-bold">
-              {{ $moment(edo.created_at).format("DD/MM/YYYY - hh:mm:ss") }}
-            </div>
-          </v-col>
-          <!-- Created By e-DO -->
-          <v-col>
-            <div class="label">
-              Created By
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" loading type="table-cell" />
-            <div v-else class="font-weight-bold text-capitalize">
-              {{ edo.created_by }}
-            </div>
-          </v-col>
-          <!-- Status e-DO -->
-          <v-col>
-            <div class="label">
-              Status
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" loading type="table-cell" />
-            <div v-else class="font-weight-bold" :style="{color: colors(edo.status)}">
-              {{ edo.status }}
-            </div>
-          </v-col>
-        </v-row>
-      </v-col>
+      <v-row align="center" justify="center">
+        <v-col cols="12" sm="6" class="py-0">
+          <v-row align="center">
+            <!-- Created By e-DO -->
+            <v-col cols="12" sm="auto">
+              <div class="label">
+                Created At
+              </div>
+              <v-skeleton-loader v-if="$fetchState.pending" loading type="table-cell" />
+              <div v-else class="font-weight-bold">
+                {{ $moment(edo.created_at).format("DD/MM/YYYY - hh:mm:ss") }}
+              </div>
+            </v-col>
 
-      <v-col>
-        <v-row no-gutters justify="end">
-          <!-- QrCode-->
-          <v-skeleton-loader v-if="$fetchState.pending" loading type="image" width="80" height="80" />
-          <qrcode
-            v-else
-            :value="edo.edo_number"
-            :options="{width: 80, height: 80}"
-          />
-          <!-- e-DO Number -->
-          <div class="ml-3 d-flex flex-column justify-center">
-            <div class="label">
-              e-DO Number
+            <!-- Created By e-DO -->
+            <v-col cols="12" sm="auto">
+              <div class="label">
+                Created By
+              </div>
+              <v-skeleton-loader v-if="$fetchState.pending" loading type="table-cell" />
+              <div v-else class="font-weight-bold text-capitalize">
+                {{ edo.created_by }}
+              </div>
+            </v-col>
+
+            <!-- Status e-DO -->
+            <v-col cols="12" sm="auto">
+              <div class="label">
+                Status
+              </div>
+              <v-skeleton-loader v-if="$fetchState.pending" loading type="table-cell" />
+              <div v-else class="font-weight-bold" :style="{color: colors(edo.status)}">
+                {{ edo.status }}
+              </div>
+            </v-col>
+          </v-row>
+        </v-col>
+
+        <v-col cols="12" sm="6">
+          <v-row no-gutters justify-sm="end">
+            <!-- QrCode-->
+            <v-skeleton-loader v-if="$fetchState.pending" loading type="image" width="80" height="80" />
+            <qrcode
+              v-else
+              :value="edo.edo_number"
+              :options="{width: 80, height: 80}"
+            />
+            <!-- e-DO Number -->
+            <div class="ml-3 d-flex flex-column justify-center">
+              <div class="label">
+                e-DO Number
+              </div>
+              <v-skeleton-loader v-if="$fetchState.pending" loading type="text" />
+              <div v-else class="font-weight-bold">
+                {{ edo.edo_number }}
+              </div>
             </div>
-            <v-skeleton-loader v-if="$fetchState.pending" loading type="text" />
-            <div v-else class="font-weight-bold">
-              {{ edo.edo_number }}
-            </div>
-          </div>
-        </v-row>
-      </v-col>
-    </v-row>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
 
     <v-divider class="my-8" />
 
-    <template>
-      <v-row v-show="isShowNotes">
+    <v-container class="mx-auto">
+      <v-row v-show="isShowNotes" align="center">
         <v-col cols="12" sm>
           <div class="label-reject">
             Notes
@@ -175,318 +190,320 @@
           </div>
         </v-col>
       </v-row>
+    </v-container>
 
-      <v-divider v-show="isShowNotes" class="my-8" />
-    </template>
+    <v-divider v-show="isShowNotes" class="my-8" />
 
-    <v-row>
-      <v-col>
-        <v-row>
-          <!-- Shipper Name -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Shipper name
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. shipper_name }}
-            </div>
-          </v-col>
-          <!-- Consignee Name -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Consignee name
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. consignee_name }}
-            </div>
-          </v-col>
-        </v-row>
+    <v-container class="mx-auto">
+      <v-row align="center">
+        <!-- Shipper Name -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Shipper name
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. shipper_name }}
+          </div>
+        </v-col>
+        <!-- Consignee Name -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Consignee name
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. consignee_name }}
+          </div>
+        </v-col>
+      </v-row>
 
-        <v-row>
-          <!-- Shipper e-Mail -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Shipper e-mail
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. shipper_email || '-' }}
-            </div>
-          </v-col>
-          <!-- Consignee e-Mail -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Consignee e-mail
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. consignee_email }}
-            </div>
-          </v-col>
-        </v-row>
+      <v-row align="center">
+        <!-- Shipper e-Mail -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Shipper e-mail
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. shipper_email || '-' }}
+          </div>
+        </v-col>
+        <!-- Consignee e-Mail -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Consignee e-mail
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. consignee_email }}
+          </div>
+        </v-col>
+      </v-row>
 
-        <v-row>
-          <!-- Shipper Address -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Shipper address
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. shipper_address || '-' }}
-            </div>
-          </v-col>
-          <!-- Consignee Address -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Consignee address
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. consignee_address || '-' }}
-            </div>
-          </v-col>
-        </v-row>
+      <v-row>
+        <!-- Shipper Address -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Shipper address
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. shipper_address || '-' }}
+          </div>
+        </v-col>
+        <!-- Consignee Address -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Consignee address
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. consignee_address || '-' }}
+          </div>
+        </v-col>
+      </v-row>
 
-        <v-row>
-          <!-- Notify -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Notify
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. notify }}
-            </div>
-          </v-col>
-          <!-- House BL Number -->
-          <v-col cols="12" sm>
-            <div class="label">
-              House BL Number
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. house_bl_number }}
-            </div>
-          </v-col>
-        </v-row>
+      <v-row>
+        <!-- Notify -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Notify
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. notify }}
+          </div>
+        </v-col>
+        <!-- House BL Number -->
+        <v-col cols="12" sm>
+          <div class="label">
+            House BL Number
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. house_bl_number }}
+          </div>
+        </v-col>
+      </v-row>
 
-        <v-row>
-          <!-- Notify Address -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Notify Address
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. notify }}
-            </div>
-          </v-col>
+      <v-row align="center">
+        <!-- Notify Address -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Notify Address
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. notify }}
+          </div>
+        </v-col>
 
-          <!-- Number of quantity -->
-          <!-- <v-col cols="12" sm>
-            <div class="label">No. of quantity</div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell"></v-skeleton-loader>
-            <div v-else class="text-h5">
-              {{ edo. number_of_quantity || '-' }}
-            </div>
-          </v-col> -->
-          <!-- end Number of quantity -->
-        </v-row>
+        <!-- Number of quantity -->
+        <!-- <v-col cols="12" sm>
+          <div class="label">No. of quantity</div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell"></v-skeleton-loader>
+          <div v-else class="text-h5">
+            {{ edo. number_of_quantity || '-' }}
+          </div>
+        </v-col> -->
+        <!-- end Number of quantity -->
+      </v-row>
 
-        <v-row>
-          <!-- MB/L Number -->
-          <v-col cols="12" sm>
-            <div class="label">
-              MB/L Number
-            </div>
-            <div class="text-h5">
-              {{ edo. mbl_number }}
-            </div>
-          </v-col>
-          <!-- House BL Date -->
-          <v-col cols="12" sm>
-            <div class="label">
-              House BL Date
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ $moment(edo. house_bl_date).format("DD/MM/YYYY") }}
-            </div>
-          </v-col>
-        </v-row>
+      <v-row align="center">
+        <!-- MB/L Number -->
+        <v-col cols="12" sm>
+          <div class="label">
+            MB/L Number
+          </div>
+          <div class="text-h5">
+            {{ edo. mbl_number }}
+          </div>
+        </v-col>
+        <!-- House BL Date -->
+        <v-col cols="12" sm>
+          <div class="label">
+            House BL Date
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ $moment(edo. house_bl_date).format("DD/MM/YYYY") }}
+          </div>
+        </v-col>
+      </v-row>
 
-        <v-row>
-          <!-- Arrival Date -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Arrival Date (ETA)
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ $moment(edo. arrival_date).format("DD/MM/YYYY") }}
-            </div>
-          </v-col>
-          <!-- Place of Receipt -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Place of receipt
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. place_of_receipt }}
-            </div>
-          </v-col>
-        </v-row>
+      <v-row align="center">
+        <!-- Arrival Date -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Arrival Date (ETA)
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ $moment(edo. arrival_date).format("DD/MM/YYYY") }}
+          </div>
+        </v-col>
+        <!-- Place of Receipt -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Place of receipt
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. place_of_receipt }}
+          </div>
+        </v-col>
+      </v-row>
 
-        <v-row>
-          <!-- Container / Seal Number -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Container/Seal number
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. container_seal_number }}
-            </div>
-          </v-col>
-          <!-- Ocean Vessel -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Ocean vessel
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. ocean_vessel }}
-            </div>
-          </v-col>
-        </v-row>
+      <v-row align="center">
+        <!-- Container / Seal Number -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Container/Seal number
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. container_seal_number }}
+          </div>
+        </v-col>
+        <!-- Ocean Vessel -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Ocean vessel
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. ocean_vessel }}
+          </div>
+        </v-col>
+      </v-row>
 
-        <v-row>
-          <!-- Port of lading -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Port of lading
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. port_of_loading }}
-            </div>
-          </v-col>
-          <!-- Voyage Number -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Voyage Number
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. voyage_number }}
-            </div>
-          </v-col>
-        </v-row>
+      <v-row align="center">
+        <!-- Port of lading -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Port of lading
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. port_of_loading }}
+          </div>
+        </v-col>
+        <!-- Voyage Number -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Voyage Number
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. voyage_number }}
+          </div>
+        </v-col>
+      </v-row>
 
-        <v-row>
-          <!-- Port of Discharges -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Port of discharges
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. port_of_discharges }}
-            </div>
-          </v-col>
-          <!-- Final Destination -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Final Destination
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. final_destination }}
-            </div>
-          </v-col>
-        </v-row>
+      <v-row align="center">
+        <!-- Port of Discharges -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Port of discharges
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. port_of_discharges }}
+          </div>
+        </v-col>
+        <!-- Final Destination -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Final Destination
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. final_destination }}
+          </div>
+        </v-col>
+      </v-row>
 
-        <v-row>
-          <!-- Gross Weight -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Gross weight (Kg)
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. gross_weight }} KGM
-            </div>
-          </v-col>
-          <!-- Number of Package -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Number of Package
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. number_of_package }}
-            </div>
-          </v-col>
-          <!-- Package -->
-          <!-- <v-col cols="12" sm>
-            <div class="label">Package</div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell"></v-skeleton-loader>
-            <div v-else class="text-h5">
-              {{ edo. package }}
-            </div>
-          </v-col> -->
-        </v-row>
+      <v-row align="center">
+        <!-- Gross Weight -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Gross weight (Kg)
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. gross_weight }} KGM
+          </div>
+        </v-col>
+        <!-- Number of Package -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Number of Package
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. number_of_package }}
+          </div>
+        </v-col>
+        <!-- Package -->
+        <!-- <v-col cols="12" sm>
+          <div class="label">Package</div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell"></v-skeleton-loader>
+          <div v-else class="text-h5">
+            {{ edo. package }}
+          </div>
+        </v-col> -->
+      </v-row>
 
-        <v-row>
-          <!-- Measurement -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Measurement (CBM)
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. measurment }} M3
-            </div>
-          </v-col>
-        </v-row>
+      <v-row align="center">
+        <!-- Measurement -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Measurement (CBM)
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. measurment }} M3
+          </div>
+        </v-col>
+      </v-row>
 
-        <v-row>
-          <!-- Description of goods -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Description of goods
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. description_of_goods }}
-            </div>
-          </v-col>
-          <!-- Marks and Number -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Marks and number
-            </div>
-            <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. marks_and_number }}
-            </div>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
+      <v-row align="center">
+        <!-- Description of goods -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Description of goods
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. description_of_goods }}
+          </div>
+        </v-col>
+        <!-- Marks and Number -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Marks and number
+          </div>
+          <v-skeleton-loader v-if="$fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. marks_and_number }}
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
 
     <v-divider class="my-7" />
 
-    <v-row justify="end" class="text-right">
-      <v-btn color="primary" @click="() => $router.back()">
-        Back to dashboard
-      </v-btn>
-    </v-row>
-  </v-container>
+    <v-container class="mx-auto">
+      <v-row align="center" justify="end" class="text-sm-right">
+        <v-col cols="12">
+          <v-btn color="primary" @click="() => $router.back()">
+            Back to dashboard
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -1164,6 +1181,9 @@ export default {
         return pdfmake.createPdf(docDefinition).print()
       })
     }
+  },
+  head: {
+    title: 'Detail - SCL e-DO'
   }
 }
 </script>

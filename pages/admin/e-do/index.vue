@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="px-md-5">
+  <v-container class="mx-auto px-md-5">
     <!-- dialog reject -->
     <dialog-rejection-edo
       :loading="paidRejectLoading"
@@ -37,7 +37,8 @@
       <template v-slot:extension>
         <v-tabs
           v-model="currentItem"
-          :centered="$vuetify.breakpoint.smAndDown"
+          show-arrows
+          :centered="$vuetify.breakpoint.mobile"
         >
           <v-tab
             v-for="item in tabItems"
@@ -54,9 +55,9 @@
 
     <v-divider class="my-5" />
 
-    <v-row class="my-10" align="end">
+    <v-row align="center" align-sm="end" class="my-10">
       <!-- search e-do -->
-      <v-col cols="4">
+      <v-col cols="12" sm>
         <v-text-field
           v-model="search"
           :disabled="$fetchState.pending"
@@ -71,7 +72,7 @@
       <!-- end search e-do -->
 
       <!-- filter e-do -->
-      <v-col class="text-right">
+      <v-col cols="12" sm="auto" class="text-sm-right">
         <v-btn large :disabled="$fetchState.pending" @click.stop="dialog_filter = true">
           Filter By <v-icon>mdi-filter-outline</v-icon>
         </v-btn>
@@ -79,7 +80,7 @@
       <!-- end filter e-do -->
 
       <!-- item per-page show -->
-      <v-col cols="auto" sm="2">
+      <v-col cols="12" sm="2">
         <v-row no-gutters>
           <v-col cols="12">
             Show Data
@@ -101,9 +102,9 @@
       <!-- end item per-page show -->
     </v-row>
 
-    <v-row>
+    <v-row align="center" justify="center">
       <!-- tabs item -->
-      <v-col>
+      <v-col cols="12">
         <v-tabs-items v-model="currentItem">
           <v-tab-item
             v-for="item in tabItems"
@@ -341,7 +342,7 @@
                     value: 'RELEASED'
                   }, {
                     text: 'On Hold',
-                    value: 'HOLD ON'
+                    value: 'ON HOLD'
                   }]"
                   item-text="text"
                   item-value="value"
@@ -399,14 +400,6 @@ import DialogHouseBlNumber from '@/components/DialogHouseBlNumber.vue'
 import DialogRejectionEdo from '@/components/DialogRejectionEdo.vue'
 
 export default {
-  meta: {
-    crumbs: [{
-      text: 'Dashboard',
-      to: '/admin/e-do',
-      disabled: true
-    }]
-  },
-  middleware: 'adminscl',
   components: {
     CardListStatusEdo,
     DialogHouseBlNumber,
@@ -513,7 +506,6 @@ export default {
       this.tabItems[1].data = filteredEdo
     }
   },
-  fetchOnServer: false,
   methods: {
     getColor (params) { return getColorStatus(params) },
     isNotRequested: params => setDisabledActions(params),
@@ -699,7 +691,19 @@ export default {
       if (!dateFormated.isValid()) { return '-' }
       return dateFormated.format('DD/MM/YYYY - hh:mm:ss')
     }
-  }
+  },
+  head: {
+    title: 'Admin Dashboard - SCL e-DO'
+  },
+  meta: {
+    crumbs: [{
+      text: 'Dashboard',
+      to: '/admin/e-do',
+      disabled: true
+    }]
+  },
+  middleware: 'adminscl',
+  fetchOnServer: false
 }
 </script>
 

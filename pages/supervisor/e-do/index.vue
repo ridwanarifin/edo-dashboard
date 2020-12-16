@@ -1,12 +1,12 @@
 <template>
-  <v-container fluid class="px-md-5">
+  <v-container class="mx-auto px-md-5">
     <card-list-status-edo :count="count" />
 
     <v-row justify="space-between" align="end" class="my-10">
-      <v-col cols="7">
+      <v-col cols="12" md="7">
         <v-row align="end" class="py-0">
           <!-- Search e-DO -->
-          <v-col cols="auto">
+          <v-col cols="12" sm>
             <v-text-field
               v-model="search"
               :disabled="$fetchState.pending"
@@ -21,7 +21,7 @@
           <!-- end Search e-DO -->
 
           <!-- Filter by -->
-          <v-col cols="auto">
+          <v-col cols="12" sm="auto">
             <v-btn large :disabled="$fetchState.pending" @click.stop="dialog_filter = true">
               Filter By <v-icon>mdi-filter-outline</v-icon>
             </v-btn>
@@ -29,7 +29,7 @@
           <!-- end Filter by -->
 
           <!-- Show data action -->
-          <v-col>
+          <v-col cols="12" sm="2">
             <v-row no-gutters align="end">
               <v-col cols="12">
                 Show Data
@@ -54,8 +54,8 @@
     </v-row>
 
     <!-- Table -->
-    <v-row>
-      <v-col>
+    <v-row align="center" justify="center">
+      <v-col cols="12">
         <v-skeleton-loader :loading="$fetchState.pending" type="table">
           <v-data-table
             :headers="tabelHeaders"
@@ -63,7 +63,7 @@
             :search.sync="search"
             :page.sync="page"
             :items-per-page="itemsPerPage"
-            class="elevation-0 py-6"
+            class="py-6"
             loading-text="Loading... Please wait"
             hide-default-footer
             calculate-widths
@@ -135,9 +135,9 @@
       </v-col>
     </v-row>
 
-    <v-row justify="space-between" align="center">
+    <v-row align="center" justify="space-between">
       <!-- Showing -->
-      <v-col cols="12" sm="6">
+      <v-col v-show="pageCount" cols="12" sm="6">
         <v-skeleton-loader :loading="$fetchState.pending" type="text">
           <div>Showing {{ pagination.pageStop - pagination.pageStart }} of {{ pagination.itemsLength }} data</div>
         </v-skeleton-loader>
@@ -145,8 +145,10 @@
       <!-- end Showing -->
 
       <!-- Pagination table -->
-      <v-col cols="12" sm="6" md="3">
+      <v-col v-show="pageCount" cols="12" sm="6" md="3">
+        <v-skeleton-loader v-if="$fetchState.pending" type="text" />
         <v-pagination
+          v-else
           v-model="page"
           circle
           :length="pageCount"
@@ -260,7 +262,7 @@
                     value: 'RELEASED'
                   }, {
                     text: 'On Hold',
-                    value: 'HOLD ON'
+                    value: 'ON HOLD'
                   }]"
                   item-text="text"
                   item-value="value"
@@ -319,14 +321,12 @@ export default {
       to: '/supervisor/e-do'
     }]
   },
-
   components: {
     CardListStatusEdo
   },
   async fetch () {
     await this.get_all()
   },
-
   data () {
     return {
       count: {
@@ -369,7 +369,6 @@ export default {
     }
   },
   fetchOnServer: false,
-
   watch: {
     allEdo (val) {
       const notPickedUp = _.filter(val, function (o) {
@@ -397,7 +396,6 @@ export default {
       this.tabelDataFilter = filteredEdo
     }
   },
-
   methods: {
     /**
      * Get e-DO & Get total e-DO
@@ -471,6 +469,9 @@ export default {
     },
 
     getColor (params) { return getColorStatus(params) }
+  },
+  head: {
+    title: 'Supervisor Dashboard - SCL e-DO'
   }
 }
 </script>

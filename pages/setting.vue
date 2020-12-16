@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid class="px-md-5">
+  <v-container class="mx-auto px-md-5">
     <v-form ref="form" v-model="valid" lazy-validation>
-      <v-row>
+      <v-row align="center" justify="space-between">
         <v-col cols="12" sm="6">
           <label for="email" class="text-body-1">Your e-mail</label>
           <v-text-field
@@ -25,7 +25,7 @@
 
       <v-divider class="my-10" />
 
-      <v-row>
+      <v-row align="center" justify="space-between">
         <v-col cols="12">
           <div class="headline font-weight-bold">
             Change Password
@@ -33,7 +33,7 @@
         </v-col>
       </v-row>
 
-      <v-row>
+      <v-row align="center" justify="space-between">
         <v-col cols="12" sm="6" md="4">
           <label for="currentPassword" class="text-body-1">Current Password</label>
           <v-text-field
@@ -92,7 +92,7 @@
         </v-col>
       </v-row>
 
-      <v-row justify="end" class="text-right">
+      <v-row align="center" justify-sm="end" class="text-sm-right">
         <v-col cols="auto">
           <v-btn :disabled="isSubmiting" text color="red" @click="clear">
             Cancel

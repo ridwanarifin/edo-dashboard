@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="mx-auto px-md-5 py-5">
+  <div class="pa-5">
     <!-- Dialog delete -->
     <v-dialog v-model="modalDeleteDialog" :disabled="loadingDelete" max-width="600px" persistent>
       <v-alert
@@ -28,124 +28,127 @@
     </v-dialog>
     <!-- end Dialog delete -->
 
-    <v-row class="mt-8">
-      <v-col cols="12" sm="6">
-        <v-row no-gutters>
-          <!-- Print action -->
-          <v-col cols="12" sm="auto" class="mb-5">
-            <v-btn class="mr-3" :disabled="!isCanPrint" :loading="loadingDelete || $fetchState.pending" @click.prevent="crete_pdf">
-              Print <v-icon class="ml-2">
-                mdi-printer
-              </v-icon>
-            </v-btn>
-          </v-col>
-          <!-- end Print action -->
+    <v-container class="mx-auto">
+      <v-row class="mt-8">
+        <v-col cols="12" sm="6">
+          <v-row no-gutters>
+            <!-- Print action -->
+            <v-col cols="12" sm="auto" class="mb-5">
+              <v-btn class="mr-3" :disabled="!isCanPrint" :loading="loadingDelete || $fetchState.pending" @click.prevent="crete_pdf">
+                <span>Print</span>
+                <v-icon class="ml-2">
+                  mdi-printer
+                </v-icon>
+              </v-btn>
+            </v-col>
+            <!-- end Print action -->
 
-          <!-- Edit action -->
-          <v-col cols="12" sm="auto">
-            <v-btn
-              nuxt
-              :to="`/dokumen/e-do/edit/${edo.edo_number}`"
-              :dark="isCanEdit"
-              color="#00D1B2"
-              :disabled="!isCanEdit"
-              :loading="loadingDelete || $fetchState.pending"
-            >
-              Edit <v-icon class="ml-2">
-                mdi-pencil-outline
-              </v-icon>
-            </v-btn>
-          </v-col>
-        <!-- end Edit action -->
-        </v-row>
-      </v-col>
+            <!-- Edit action -->
+            <v-col cols="12" sm="auto">
+              <v-btn
+                nuxt
+                :to="`/dokumen/e-do/edit/${edo.edo_number}`"
+                :dark="isCanEdit"
+                color="#00D1B2"
+                :disabled="!isCanEdit"
+                :loading="loadingDelete || $fetchState.pending"
+              >
+                Edit <v-icon class="ml-2">
+                  mdi-pencil-outline
+                </v-icon>
+              </v-btn>
+            </v-col>
+          <!-- end Edit action -->
+          </v-row>
+        </v-col>
 
-      <v-col cols="12" sm="6" class="text-sm-right">
-        <!-- Delete action -->
-        <v-btn :dark="isCandDelete" color="#FF3860" :disabled="!isCandDelete" :loading="loadingDelete || $fetchState.pending" @click.stop="modalDeleteDialog = true">
-          Delete <v-icon class="ml-2">
-            mdi-trash-can-outline
-          </v-icon>
-        </v-btn>
-        <!-- end Delete action -->
-      </v-col>
-    </v-row>
+        <v-col cols="12" sm="6" class="text-sm-right">
+          <!-- Delete action -->
+          <v-btn :dark="isCandDelete" color="#FF3860" :disabled="!isCandDelete" :loading="loadingDelete || $fetchState.pending" @click.stop="modalDeleteDialog = true">
+            Delete <v-icon class="ml-2">
+              mdi-trash-can-outline
+            </v-icon>
+          </v-btn>
+          <!-- end Delete action -->
+        </v-col>
+      </v-row>
 
-    <v-row>
-      <v-col cols="12" sm="6">
-        <v-row>
-          <!-- Created at -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Created At
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" loading type="table-cell" />
-            <div v-else class="font-weight-bold">
-              {{ created_at_formated }}
-            </div>
-          </v-col>
-          <!-- end Created at -->
-
-          <!-- Created By -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Created By
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" loading type="table-cell" />
-            <div v-else class="font-weight-bold text-capitalize">
-              {{ edo.created_by }}
-            </div>
-          </v-col>
-          <!-- end Created By -->
-
-          <!-- Status e-DO -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Status
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" loading type="table-cell" />
-            <div v-else class="font-weight-bold" :style="{color: colors(edo.status)}">
-              {{ edo.status }}
-            </div>
-          </v-col>
-          <!-- end Status e-DO -->
-        </v-row>
-      </v-col>
-
-      <v-col cols="12" sm="6">
-        <v-row justify="end">
-          <!-- QrCode -->
-          <v-col cols="12" sm="auto">
-            <v-skeleton-loader v-if="$fetchState.pending" loading type="image" width="80" height="80" />
-            <qrcode
-              v-else
-              :value="edo.edo_number"
-              :options="{width: 80, height: 80}"
-            />
-          </v-col>
-          <!-- end QrCode -->
-
-          <!-- e-DO Number -->
-          <v-col cols="12" sm="auto">
-            <div class="ml-3 d-flex flex-column justify-center">
+      <v-row align="center" justify="center">
+        <v-col cols="12" sm="6" class="py-0">
+          <v-row align="center">
+            <!-- Created at -->
+            <v-col cols="12" sm="auto">
               <div class="label">
-                e-DO Number
+                Created At
               </div>
-              <v-skeleton-loader v-if="$fetchState.pending" loading type="table-cell" />
+              <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" loading type="table-cell" />
               <div v-else class="font-weight-bold">
-                {{ edo.edo_number }}
+                {{ created_at_formated }}
               </div>
-            </div>
-          </v-col>
-          <!-- end e-DO Number -->
-        </v-row>
-      </v-col>
-    </v-row>
+            </v-col>
+            <!-- end Created at -->
+
+            <!-- Created By -->
+            <v-col cols="12" sm="auto">
+              <div class="label">
+                Created By
+              </div>
+              <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" loading type="table-cell" />
+              <div v-else class="font-weight-bold text-capitalize">
+                {{ edo.created_by }}
+              </div>
+            </v-col>
+            <!-- end Created By -->
+
+            <!-- Status e-DO -->
+            <v-col cols="12" sm="auto">
+              <div class="label">
+                Status
+              </div>
+              <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" loading type="table-cell" />
+              <div v-else class="font-weight-bold" :style="{color: colors(edo.status)}">
+                {{ edo.status }}
+              </div>
+            </v-col>
+            <!-- end Status e-DO -->
+          </v-row>
+        </v-col>
+
+        <v-col cols="12" sm="6">
+          <v-row justify="end">
+            <!-- QrCode -->
+            <v-col cols="12" sm="auto">
+              <v-skeleton-loader v-if="$fetchState.pending" loading type="image" width="80" height="80" />
+              <qrcode
+                v-else
+                :value="edo.edo_number"
+                :options="{width: 80, height: 80}"
+              />
+            </v-col>
+            <!-- end QrCode -->
+
+            <!-- e-DO Number -->
+            <v-col cols="12" sm="auto">
+              <div class="ml-3 d-flex flex-column justify-center">
+                <div class="label">
+                  e-DO Number
+                </div>
+                <v-skeleton-loader v-if="$fetchState.pending" loading type="table-cell" />
+                <div v-else class="font-weight-bold">
+                  {{ edo.edo_number }}
+                </div>
+              </div>
+            </v-col>
+            <!-- end e-DO Number -->
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
 
     <v-divider class="my-8" />
 
-    <template>
-      <v-row v-show="isShowNotes">
+    <v-container class="mx-auto">
+      <v-row v-show="isShowNotes" align="center">
         <v-col cols="12" sm>
           <div class="label-reject">
             Notes
@@ -155,355 +158,357 @@
           </div>
         </v-col>
       </v-row>
+    </v-container>
 
-      <v-divider v-show="isShowNotes" class="my-8" />
-    </template>
+    <v-divider v-show="isShowNotes" class="my-8" />
 
-    <v-row>
-      <v-col>
-        <v-row>
-          <!-- Shipper name -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Shipper name
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. shipper_name }}
-            </div>
-          </v-col>
-          <!-- end Shipper name -->
+    <v-container class="mx-auto">
+      <v-row align="center">
+        <!-- Shipper name -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Shipper name
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. shipper_name }}
+          </div>
+        </v-col>
+        <!-- end Shipper name -->
 
-          <!-- Consignee name -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Consignee name
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. consignee_name }}
-            </div>
-          </v-col>
-          <!-- end Consignee name -->
-        </v-row>
+        <!-- Consignee name -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Consignee name
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. consignee_name }}
+          </div>
+        </v-col>
+        <!-- end Consignee name -->
+      </v-row>
 
-        <v-row>
-          <!-- Shipper e-mail -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Shipper e-mail
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. shipper_email || '-' }}
-            </div>
-          </v-col>
-          <!-- end Shipper e-mail -->
+      <v-row align="center">
+        <!-- Shipper e-mail -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Shipper e-mail
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. shipper_email || '-' }}
+          </div>
+        </v-col>
+        <!-- end Shipper e-mail -->
 
-          <!-- Consignee e-mail -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Consignee e-mail
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. consignee_email }}
-            </div>
-          </v-col>
-          <!-- end Consignee e-mail -->
-        </v-row>
+        <!-- Consignee e-mail -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Consignee e-mail
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. consignee_email }}
+          </div>
+        </v-col>
+        <!-- end Consignee e-mail -->
+      </v-row>
 
-        <v-row>
-          <!-- Shipper address -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Shipper address
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. shipper_address }}
-            </div>
-          </v-col>
-          <!-- end Shipper address -->
+      <v-row align="center">
+        <!-- Shipper address -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Shipper address
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. shipper_address }}
+          </div>
+        </v-col>
+        <!-- end Shipper address -->
 
-          <!-- Consignee address -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Consignee address
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. consignee_address }}
-            </div>
-          </v-col>
-          <!-- end Consignee address -->
-        </v-row>
+        <!-- Consignee address -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Consignee address
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. consignee_address }}
+          </div>
+        </v-col>
+        <!-- end Consignee address -->
+      </v-row>
 
-        <v-row>
-          <!-- Notify -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Notify
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. notify }}
-            </div>
-          </v-col>
-          <!-- end Notify -->
+      <v-row align="center">
+        <!-- Notify -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Notify
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. notify }}
+          </div>
+        </v-col>
+        <!-- end Notify -->
 
-          <!-- House BL number -->
-          <v-col cols="12" sm>
-            <div class="label">
-              House BL Number
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. house_bl_number }}
-            </div>
-          </v-col>
-          <!-- end House BL number -->
-        </v-row>
+        <!-- House BL number -->
+        <v-col cols="12" sm>
+          <div class="label">
+            House BL Number
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. house_bl_number }}
+          </div>
+        </v-col>
+        <!-- end House BL number -->
+      </v-row>
 
-        <v-row>
-          <!-- Notify address -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Notify Address
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. notify }}
-            </div>
-          </v-col>
-          <!-- end Notify address -->
+      <v-row align="center">
+        <!-- Notify address -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Notify Address
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. notify }}
+          </div>
+        </v-col>
+        <!-- end Notify address -->
 
-          <!-- Number of quantity -->
-          <!-- <v-col cols="12" sm>
-            <div class="label">No. of quantity</div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell"></v-skeleton-loader>
-            <div v-else class="text-h5">
-              {{ edo. number_of_quantity || '-' }}
-            </div>
-          </v-col> -->
-          <!-- end Number of quantity -->
-        </v-row>
+        <!-- Number of quantity -->
+        <!-- <v-col cols="12" sm>
+          <div class="label">No. of quantity</div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell"></v-skeleton-loader>
+          <div v-else class="text-h5">
+            {{ edo. number_of_quantity || '-' }}
+          </div>
+        </v-col> -->
+        <!-- end Number of quantity -->
+      </v-row>
 
-        <v-row>
-          <!-- MBL number -->
-          <v-col cols="12" sm>
-            <div class="label">
-              MB/L Number
-            </div>
-            <div class="text-h5">
-              {{ edo. mbl_number }}
-            </div>
-          </v-col>
-          <!-- end MBL number -->
+      <v-row align="center">
+        <!-- MBL number -->
+        <v-col cols="12" sm>
+          <div class="label">
+            MB/L Number
+          </div>
+          <div class="text-h5">
+            {{ edo. mbl_number }}
+          </div>
+        </v-col>
+        <!-- end MBL number -->
 
-          <!-- House BL date -->
-          <v-col cols="12" sm>
-            <div class="label">
-              House BL Date
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ $moment(edo. house_bl_date).format("DD/MM/YYYY") }}
-            </div>
-          </v-col>
-          <!-- end House BL date -->
-        </v-row>
+        <!-- House BL date -->
+        <v-col cols="12" sm>
+          <div class="label">
+            House BL Date
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ $moment(edo. house_bl_date).format("DD/MM/YYYY") }}
+          </div>
+        </v-col>
+        <!-- end House BL date -->
+      </v-row>
 
-        <v-row>
-          <!-- Arrival date -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Arrival Date (ETA)
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ $moment(edo. arrival_date).format("DD/MM/YYYY") }}
-            </div>
-          </v-col>
-          <!-- end Arrival date -->
+      <v-row align="center">
+        <!-- Arrival date -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Arrival Date (ETA)
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ $moment(edo. arrival_date).format("DD/MM/YYYY") }}
+          </div>
+        </v-col>
+        <!-- end Arrival date -->
 
-          <!-- Place of receipt -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Place of receipt
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. place_of_receipt }}
-            </div>
-          </v-col>
-          <!-- end Place of receipt -->
-        </v-row>
+        <!-- Place of receipt -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Place of receipt
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. place_of_receipt }}
+          </div>
+        </v-col>
+        <!-- end Place of receipt -->
+      </v-row>
 
-        <v-row>
-          <!-- Container seal number -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Container/Seal number
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. container_seal_number }}
-            </div>
-          </v-col>
-          <!-- end Container seal number -->
+      <v-row align="center">
+        <!-- Container seal number -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Container/Seal number
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. container_seal_number }}
+          </div>
+        </v-col>
+        <!-- end Container seal number -->
 
-          <!-- Ocean vessel -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Ocean vessel
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. ocean_vessel }}
-            </div>
-          </v-col>
-          <!-- end Ocean vessel -->
-        </v-row>
+        <!-- Ocean vessel -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Ocean vessel
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. ocean_vessel }}
+          </div>
+        </v-col>
+        <!-- end Ocean vessel -->
+      </v-row>
 
-        <v-row>
-          <!-- Port of lading -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Port of lading
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. port_of_loading }}
-            </div>
-          </v-col>
-          <!-- end Port of lading -->
+      <v-row align="center">
+        <!-- Port of lading -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Port of lading
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. port_of_loading }}
+          </div>
+        </v-col>
+        <!-- end Port of lading -->
 
-          <!-- Voyage number -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Voyage Number
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. voyage_number }}
-            </div>
-          </v-col>
-          <!-- end Voyage number -->
-        </v-row>
+        <!-- Voyage number -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Voyage Number
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. voyage_number }}
+          </div>
+        </v-col>
+        <!-- end Voyage number -->
+      </v-row>
 
-        <v-row>
-          <!-- Final destination -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Final Destination
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. final_destination }}
-            </div>
-          </v-col>
-          <!-- end Final destination -->
+      <v-row align="center">
+        <!-- Final destination -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Final Destination
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. final_destination }}
+          </div>
+        </v-col>
+        <!-- end Final destination -->
 
-          <!-- Port of discharges -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Port of discharges
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. port_of_discharges }}
-            </div>
-          </v-col>
-          <!-- end Port of discharges -->
-        </v-row>
+        <!-- Port of discharges -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Port of discharges
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. port_of_discharges }}
+          </div>
+        </v-col>
+        <!-- end Port of discharges -->
+      </v-row>
 
-        <v-row>
-          <!-- Gross weight -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Gross weight (Kg)
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. gross_weight }} KGM
-            </div>
-          </v-col>
-          <!-- end Gross weight -->
+      <v-row align="center">
+        <!-- Gross weight -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Gross weight (Kg)
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. gross_weight }} KGM
+          </div>
+        </v-col>
+        <!-- end Gross weight -->
 
-          <!-- Number of package -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Number of Package
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. number_of_package }}
-            </div>
-          </v-col>
-          <!-- end Number of package -->
+        <!-- Number of package -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Number of Package
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. number_of_package }}
+          </div>
+        </v-col>
+        <!-- end Number of package -->
 
-          <!-- Package -->
-          <!-- <v-col cols="12" sm>
-            <div class="label">Package</div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell"></v-skeleton-loader>
-            <div v-else class="text-h5">
-              {{ edo. package }}
-            </div>
-          </v-col> -->
-          <!-- end Package -->
-        </v-row>
+        <!-- Package -->
+        <!-- <v-col cols="12" sm>
+          <div class="label">Package</div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell"></v-skeleton-loader>
+          <div v-else class="text-h5">
+            {{ edo. package }}
+          </div>
+        </v-col> -->
+        <!-- end Package -->
+      </v-row>
 
-        <v-row>
-          <!-- Measurement -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Measurement (CBM)
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. measurment }} M3
-            </div>
-          </v-col>
-          <!-- end Measurement -->
-        </v-row>
+      <v-row align="center">
+        <!-- Measurement -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Measurement (CBM)
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. measurment }} M3
+          </div>
+        </v-col>
+        <!-- end Measurement -->
+      </v-row>
 
-        <v-row>
-          <!-- Description of goods -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Description of goods
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. description_of_goods }}
-            </div>
-          </v-col>
-          <!-- end Description of goods -->
+      <v-row align="center">
+        <!-- Description of goods -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Description of goods
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. description_of_goods }}
+          </div>
+        </v-col>
+        <!-- end Description of goods -->
 
-          <!-- Marks and number -->
-          <v-col cols="12" sm>
-            <div class="label">
-              Marks and number
-            </div>
-            <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
-            <div v-else class="text-h5">
-              {{ edo. marks_and_number }}
-            </div>
-          </v-col>
-          <!-- end Marks and number -->
-        </v-row>
-      </v-col>
-    </v-row>
+        <!-- Marks and number -->
+        <v-col cols="12" sm>
+          <div class="label">
+            Marks and number
+          </div>
+          <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" type="table-cell" />
+          <div v-else class="text-h5">
+            {{ edo. marks_and_number }}
+          </div>
+        </v-col>
+        <!-- end Marks and number -->
+      </v-row>
+    </v-container>
 
     <v-divider class="my-7" />
 
-    <v-row justify="end" class="text-right">
-      <v-btn color="primary" @click="() => $router.back()">
-        Back to dashboard
-      </v-btn>
-    </v-row>
-  </v-container>
+    <v-container class="mx-auto">
+      <v-row align="center" justify="end" class="text-sm-right">
+        <v-col cols="12">
+          <v-btn color="primary" @click="() => $router.back()">
+            Back to dashboard
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -990,6 +995,9 @@ export default {
         return pdfmake.createPdf(docDefinition).print()
       })
     }
+  },
+  head: {
+    title: 'Detail - SCL e-DO'
   }
 }
 </script>

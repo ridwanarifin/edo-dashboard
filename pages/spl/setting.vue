@@ -1,8 +1,8 @@
 <template>
-  <v-container>
+  <v-container class="mx-auto">
     <validation-observer ref="observer" v-slot="{ invalid, handleSubmit }">
       <form @submit.prevent="handleSubmit(on_submit)" @reset.prevent="cancel">
-        <v-row>
+        <v-row align="center" justify="space-between">
           <v-col cols="12" sm="6">
             <label for="email" class="text-body-1">Your e-mail</label>
             <v-text-field
@@ -26,7 +26,7 @@
 
         <v-divider class="my-10" />
 
-        <v-row>
+        <v-row align="center" justify="space-between">
           <v-col cols="12">
             <div class="headline font-weight-bold">
               Change Password
@@ -41,7 +41,7 @@
           </v-col>
         </v-row>
 
-        <v-row>
+        <v-row align="center" justify="space-between">
           <v-col cols="12" sm="6" md="4">
             <label for="currentPassword" class="text-body-1">Current Password</label>
             <validation-provider v-slot="{ valid, errors }" name="current password" rules="required|confirmed:$auth.user.currentPassword">
@@ -106,7 +106,7 @@
           </v-col>
         </v-row>
 
-        <v-row justify="end" class="text-right">
+        <v-row align="center" justify-sm="end" class="text-sm-right">
           <v-col cols="auto">
             <v-btn text color="red" type="reset" :disabled="isSubmiting">
               Cancel

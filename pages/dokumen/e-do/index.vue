@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="px-md-5">
+  <v-container class="mx-auto px-md-5">
     <!-- Dialog Delete -->
     <v-dialog v-model="modalDeleteDialog" :disabled="loadingDelete" max-width="600px" persistent>
       <v-alert
@@ -35,10 +35,10 @@
     <card-list-status-edo :count="count" />
 
     <v-row justify="space-between" align="end" class="my-10">
-      <v-col cols="7">
-        <v-row align="end" class="py-0">
+      <v-col cols="12" md="7" class="py-0">
+        <v-row align="end">
           <!-- Search e-DO -->
-          <v-col cols="auto">
+          <v-col cols="12" sm>
             <v-text-field
               v-model="search"
               :disabled="$fetchState.pending"
@@ -53,7 +53,7 @@
           <!-- end Search e-DO -->
 
           <!-- Filter by -->
-          <v-col cols="auto">
+          <v-col cols="12" sm="auto">
             <v-btn large :disabled="$fetchState.pending" @click.stop="dialog_filter = true">
               Filter By <v-icon>mdi-filter-outline</v-icon>
             </v-btn>
@@ -61,7 +61,7 @@
           <!-- end Filter by -->
 
           <!-- Show data action -->
-          <v-col>
+          <v-col cols="12" sm="2">
             <v-row no-gutters align="end">
               <v-col cols="12">
                 Show Data
@@ -85,7 +85,7 @@
       </v-col>
 
       <!-- Created new e-DO -->
-      <v-col cols="auto">
+      <v-col class="text-md-right">
         <v-btn color="primary" :disabled="$fetchState.pending" nuxt :to="`${$route.path}/create`">
           Create new e-DO <v-icon>mdi-plus-circle-outline</v-icon>
         </v-btn>
@@ -94,8 +94,8 @@
     </v-row>
 
     <!-- Table -->
-    <v-row>
-      <v-col>
+    <v-row align="center" justify="center">
+      <v-col cols="12">
         <v-skeleton-loader :loading="$fetchState.pending" type="table">
           <v-data-table
             :headers="tabelHeaders"
@@ -191,9 +191,9 @@
       </v-col>
     </v-row>
 
-    <v-row justify="space-between" align="center">
+    <v-row align="center" justify="space-between">
       <!-- Showing -->
-      <v-col cols="12" sm="6">
+      <v-col v-show="pageCount" cols="12" sm="6">
         <v-skeleton-loader :loading="$fetchState.pending" type="text">
           <div>Showing {{ pagination.pageStop - pagination.pageStart }} of {{ pagination.itemsLength }} data</div>
         </v-skeleton-loader>
@@ -201,8 +201,10 @@
       <!-- end Showing -->
 
       <!-- Pagination table -->
-      <v-col cols="12" sm="6" md="3">
+      <v-col v-show="pageCount" cols="12" sm="6" md="3">
+        <v-skeleton-loader v-if="$fetchState.pending" type="text" />
         <v-pagination
+          v-else
           v-model="page"
           circle
           :length="pageCount"
@@ -316,7 +318,7 @@
                     value: 'RELEASED'
                   }, {
                     text: 'On Hold',
-                    value: 'HOLD ON'
+                    value: 'ON HOLD'
                   }]"
                   item-text="text"
                   item-value="value"
@@ -561,6 +563,9 @@ export default {
       this.contextDelete = { edoId, edoNumber }
       this.modalDeleteDialog = true
     }
+  },
+  head: {
+    title: 'Dokumen Dashboard - SCL e-DO'
   }
 }
 </script>

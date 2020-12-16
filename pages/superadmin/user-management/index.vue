@@ -1,17 +1,18 @@
 <template>
-  <v-container fluid class="py-10 px-md-5">
-    <v-row class="mb-5" align="end" justify="space-between">
-      <v-col cols="12" sm="auto">
-        <v-row no-gutters class="font-weight-bold">
-          <span class="mr-4">Total user :</span> <v-skeleton-loader min-width="30" :loading="$fetchState.pending" type="chip">
+  <v-container class="mx-auto py-10 px-md-5">
+    <v-row class="mb-5" align="center" justify="space-between">
+      <v-col cols="12" sm="auto" class="font-weight-bold">
+        <div class="d-flex">
+          <span class="mr-4">Total user :</span>
+          <v-skeleton-loader min-width="30" :loading="$fetchState.pending" type="chip">
             {{ total }}
           </v-skeleton-loader>
-        </v-row>
+        </div>
       </v-col>
 
-      <v-col cols="12" sm="auto">
-        <v-row no-gutters align="end" class="py-0">
-          <v-col cols="auto" class="mr-sm-3">
+      <v-col cols="12" sm="auto" class="py-0">
+        <v-row align="center" align-sm="end" justify="space-between">
+          <v-col cols="12" sm="auto">
             <v-text-field
               v-model="search"
               prepend-inner-icon="mdi-magnify"
@@ -23,28 +24,22 @@
             />
           </v-col>
 
-          <v-col cols="auto" class="mr-sm-3">
-            <v-row no-gutters>
-              <v-col cols="12">
-                Show Data
-              </v-col>
-              <v-col class="mt-3">
-                <v-text-field
-                  :value="itemsPerPage"
-                  label="Items per page"
-                  type="number"
-                  min="-1"
-                  max="15"
-                  solo
-                  hide-details
-                  :disabled="$fetchState.pending"
-                  @input="inputSearch"
-                />
-              </v-col>
-            </v-row>
+          <v-col cols="12" sm="2">
+            <div>Show Data</div>
+            <v-text-field
+              :value="itemsPerPage"
+              label="Items per page"
+              type="number"
+              min="-1"
+              max="15"
+              solo
+              hide-details
+              :disabled="$fetchState.pending"
+              @input="inputSearch"
+            />
           </v-col>
 
-          <v-col cols="auto">
+          <v-col cols="12" sm="auto">
             <v-btn
               color="primary"
               nuxt
@@ -61,7 +56,7 @@
       </v-col>
     </v-row>
 
-    <v-row>
+    <v-row align="center" justify="center">
       <v-col cols="12">
         <v-skeleton-loader :loading="$fetchState.pending" type="table">
           <v-data-table
@@ -118,14 +113,14 @@
       </v-col>
     </v-row>
 
-    <v-row justify="space-between" align="center">
-      <v-col cols="12" sm="6">
+    <v-row align="center" justify="space-between">
+      <v-col v-show="pageCount" cols="12" sm="6">
         <v-skeleton-loader :loading="$fetchState.loading" type="text">
           <div>Showing {{ page * itemsPerPage }} of {{ users.length }} Data </div>
         </v-skeleton-loader>
       </v-col>
 
-      <v-col cols="12" sm="6" md="3">
+      <v-col v-show="pageCount" cols="12" sm="6" md="3">
         <v-pagination
           v-model="page"
           circle
@@ -252,7 +247,6 @@ export default {
     }]
   },
   middleware: 'superadminscl',
-
   async fetch () {
     this.$toast.global.app_loading()
     await Promise.all([
@@ -262,7 +256,6 @@ export default {
         this.$toast.clear()
       })
   },
-
   data: () => ({
     search: '',
     users: [],
@@ -294,7 +287,6 @@ export default {
     isUserLoading: false
   }),
   fetchOnServer: false,
-
   methods: {
     inputSearch (event) {
       this.itemsPerPage = _.toInteger(event, 10)
@@ -391,6 +383,9 @@ export default {
     },
 
     kebabCase: params => _.kebabCase(params)
+  },
+  head: {
+    title: 'User Management - SCL e-DO'
   }
 }
 </script>
