@@ -22,13 +22,17 @@ export const actions = {
       })
       .catch((error) => {
         this.$toast.clear()
-        console.log(error)
-        const msg = error.response.data && ', ' + error.response.data.message
-        this.$toast.global.app_error('Login failed' + msg)
+        if (error.response.data) {
+          const msg = error.response.data && ', ' + error.response.data.message
+          this.$toast.global.app_error('Login failed' + msg)
+        } else {
+          console.log(error)
+          this.$toast.global.app_error('Login failed.')
+        }
       })
   }
 }
 
 export const plugins = [
-  process.client ? createPersistedState() : null
+  createPersistedState()
 ]
