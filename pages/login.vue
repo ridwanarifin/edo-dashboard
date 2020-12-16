@@ -34,6 +34,7 @@
               :error-messages="errors"
               required
               outlined
+              clearable
               type="email"
             />
           </validation-provider>
@@ -51,6 +52,7 @@
               :type="show ? 'text' : 'password'"
               outlined
               required
+              clearable
               @click:append="show = !show"
             />
           </validation-provider>

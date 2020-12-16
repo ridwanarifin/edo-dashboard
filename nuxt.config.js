@@ -78,10 +78,8 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    debug: true,
     baseURL: 'https://cors-anywhere.herokuapp.com/https://api-scl.herokuapp.com/',
     headers: {
-      'Access-Control-Allow-Headers': 'Content-Type',
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE, PUT'
     }
