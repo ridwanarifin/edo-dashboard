@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <validation-observer v-slot="{ invalid, handleSubmit }">
-      <form @submit.prevent="handleSubmit($router.push(`/spl/admin/e-do/detail/${edoNumberField}`))">
+      <form @submit.prevent="handleSubmit($router.push(`${$route.path}/e-do/detail/${edoNumberField}`))">
         <label for="edoNumber">Input e-DO number</label>
         <validation-provider v-slot="{ valid, errors }" name="e-do number" rules="required">
           <v-text-field

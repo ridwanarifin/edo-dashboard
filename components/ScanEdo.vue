@@ -58,7 +58,6 @@ export default {
   },
   watch: {
     isQrcode (newVal) {
-      console.log(newVal)
       this.showQr = newVal
     }
   },
