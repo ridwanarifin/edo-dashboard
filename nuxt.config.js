@@ -78,7 +78,8 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: 'https://cors-anywhere.herokuapp.com/https://api-scl.herokuapp.com/',
+    debug: true,
+    baseURL: 'https://backend.smufreight.com/',
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE, PUT'

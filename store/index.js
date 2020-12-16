@@ -14,11 +14,21 @@ export const mutations = {
 
 export const actions = {
   async UserLogin ({ commit }, data) {
-    const response = await this.$auth.loginWith('local', { data: qs.stringify(data) })
-    commit('setAuth', { token: response.data.id_token, password: data.password })
+    this.$toast.global.app_loading()
+    await this.$auth.loginWith('local', { data: qs.stringify(data) })
+      .then((response) => {
+        this.$toast.clear()
+        commit('setAuth', { token: response.data.id_token, password: data.password })
+      })
+      .catch((error) => {
+        this.$toast.clear()
+        console.log(error)
+        const msg = error.response.data && ', ' + error.response.data.message
+        this.$toast.global.app_error('Login failed' + msg)
+      })
   }
 }
 
 export const plugins = [
-  createPersistedState()
+  process.client ? createPersistedState() : null
 ]
