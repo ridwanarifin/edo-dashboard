@@ -6,7 +6,7 @@
   "author": "ridwan <ridwanarifin@pm.me>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ridwanarifin/scl-dashboard.git"
+    "url": "git+https://github.com/ridwanarifin/edo-dashboard.git"
   },
   "scripts": {
     "dev": "nuxt",
