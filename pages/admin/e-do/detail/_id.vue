@@ -537,13 +537,9 @@ export default {
     }]
   },
   async fetch () {
-    this.$toast.global.app_loading()
     await Promise.all([
       this.get_edo_by_id()
     ])
-      .then(() => {
-        this.$toast.clear()
-      })
   },
   data () {
     return {
@@ -633,12 +629,15 @@ export default {
      */
     async get_edo_by_id () {
       try {
-        const response = await this.$axios.get(`/api/e_do/search?e_do_number=${this.$route.params.id}`)
+        this.$toast.global.app_loading()
+        const response = await this.$axios.get(`/api/e_do/search/e_do_number/${this.$route.params.id}`)
         if (response.status === 200) {
+          this.$toast.clear()
           const { data } = response.data
           this.edo = data[0]
         }
       } catch (error) {
+        this.$toast.clear()
         this.$toast.global.app_error(`Failed to get e-DO ${this.$route.params.id}`)
       }
     },

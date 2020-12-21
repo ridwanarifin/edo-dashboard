@@ -78,11 +78,7 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: 'https://cors-anywhere.herokuapp.com/https://api-scl.herokuapp.com/',
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE, PUT'
-    }
+    baseURL: 'https://backend.smufreight.com/'
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
@@ -110,7 +106,7 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: { url: '/api/e_do/login', method: 'post', propertyName: 'id_token' },
+          login: { url: '/login', method: 'post', propertyName: 'id_token' },
           user: false,
           logout: false
         },

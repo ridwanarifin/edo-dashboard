@@ -153,7 +153,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.isSubmiting = true
         this.$toast.global.app_loading()
-        this.$axios.put(`/api/e_do/edit_password/${this.$auth.user.id}`, qs.stringify(this.password))
+        this.$axios.put(`/api/edit_password/${this.$auth.user.id}`, qs.stringify(this.password))
           .then((response) => {
             this.$auth.setUser({ ...this.$auth.user, currentPassword: this.password })
             this.$toast.global.app_success('Password successfully updated.')

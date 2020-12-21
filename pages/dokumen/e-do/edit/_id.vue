@@ -91,7 +91,7 @@ export default {
      */
     async get_edo_by_number () {
       const edonumber = this.$route.params.id
-      await this.$axios.get(`/api/e_do/search?e_do_number=${edonumber}`)
+      await this.$axios.get(`/api/e_do/search/e_do_number/${edonumber}`)
         .then((response) => {
           this.models = response.data.data[0]
         })

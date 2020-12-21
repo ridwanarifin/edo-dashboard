@@ -463,13 +463,15 @@ export default {
     colors (params) { return getColorStatus(params) },
 
     async handle_picked_up (e) {
-      this.$toast.global.app_loading()
       try {
+        this.$toast.global.app_loading()
         const response = await this.$axios.put(`/api/e_do/picked_up/${this.edo.edo_id}`)
         if (response) {
+          this.$toast.clear()
           this.$toast.global.app_success(`e-DO ${this.edo.edo_number} successfully to picked up`)
         }
       } catch (err) {
+        this.$toast.clear()
         this.$toast.global.app_error(`e-DO ${this.edo.edo_number} failed to picked up`, err.response.message)
       } finally {
         this.search_edo()
@@ -478,7 +480,7 @@ export default {
 
     async search_edo () {
       try {
-        const response = await this.$axios.get(`/api/e_do/search?e_do_number=${this.$route.params.id}`)
+        const response = await this.$axios.get(`/api/e_do/search/e_do_number/${this.$route.params.id}`)
         if (response) {
           const { data } = response.data
           this.edo = data[0]

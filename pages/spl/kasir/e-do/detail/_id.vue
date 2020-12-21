@@ -503,7 +503,7 @@ export default {
     colors (params) { return getColorStatus(params) },
     async search_edo () {
       try {
-        const response = await this.$axios.get(`/api/e_do/search?e_do_number=${this.$route.params.id}`)
+        const response = await this.$axios.get(`/api/e_do/search/e_do_number/${this.$route.params.id}`)
         if (response) {
           const { data } = response.data
           this.edo = data[0]

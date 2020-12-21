@@ -537,18 +537,18 @@ export default {
   middleware: 'dokumenscl',
 
   async fetch () {
-    this.$toast.global.app_loading()
     try {
-      const response = await this.$axios.get(`/api/e_do/search?e_do_number=${this.$route.params.id}`)
+      this.$toast.global.app_loading()
+      const response = await this.$axios.get(`/api/e_do/search/e_do_number/${this.$route.params.id}`)
       if (response) {
+        this.$toast.clear()
         const { data } = response.data
         this.edo = data[0]
       }
     } catch (error) {
+      this.$toast.clear()
       const message = error.response && error.response.data && error.response.data.message && ` ,${error.response.data.message}`
       this.$toast.global.app_error(`Failed to get e-DO${message}`)
-    } finally {
-      this.$toast.clear()
     }
   },
   fetchOnServer: false,

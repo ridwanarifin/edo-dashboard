@@ -157,7 +157,7 @@ export default {
     async on_submit () {
       this.isSubmiting = true
       this.$toast.global.app_loading()
-      await this.$axios.put(`/api/e_do/edit_password/${this.$auth.user.id}`, qs.stringify(this.password))
+      await this.$axios.put(`/api/edit_password/${this.$auth.user.id}`, qs.stringify(this.password))
         .then((response) => {
           this.clear()
           this.$auth.setUser({ ...this.$auth.user, currentPassword: this.password })
