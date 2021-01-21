@@ -550,7 +550,7 @@ export default {
                           style: 'label'
                         },
                         {
-                          text: edo.shipper_name,
+                          text: edo.shipper_name + '\r\n' + edo.shipper_address || '-',
                           style: 'content'
                         }
                       ]
@@ -623,7 +623,7 @@ export default {
                           style: 'label'
                         },
                         {
-                          text: edo.consignee_name,
+                          text: edo.consignee_name + '\r\n' + edo.consignee_address || '-',
                           style: 'content'
                         }
                       ]

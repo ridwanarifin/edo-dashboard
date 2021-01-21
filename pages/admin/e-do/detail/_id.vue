@@ -97,11 +97,6 @@
               </v-btn>
             </v-col>
 
-            <!-- Action Paid -->
-            <!-- <v-btn dark v-show="!iNotHoldOn" class="mr-3" color="#00D1B2" @click.stop="paid.showHouseBLDialog = true" :disabled="$fetchState.pending" :loading="$fetchState.pending">
-              Paid <v-icon class="ml-2">mdi-checkbox-marked-circle-outline</v-icon>
-            </v-btn> -->
-
             <v-col cols="12" sm="auto">
               <!-- Action Reject -->
               <v-btn :dark="isCanReject" color="#FF3860" :disabled="!isCanReject" :loading="$fetchState.pending" @click.prevent="open_dialog_house_bl_reject">
@@ -125,7 +120,7 @@
               </div>
               <v-skeleton-loader v-if="$fetchState.pending" loading type="table-cell" />
               <div v-else class="font-weight-bold">
-                {{ $moment(edo.created_at).format("DD/MM/YYYY - hh:mm:ss") }}
+                {{ $moment(edo.created_at).format("DD/MM/YYYY - hh:mm") }}
               </div>
             </v-col>
 
@@ -603,6 +598,7 @@ export default {
   },
   watch: {
     edo (val) {
+      console.log(val)
       const userRole = this.$auth.hasScope('admin') ? 'Superadmin' : ''
       if (val.status !== 'UNPAID' && val.status !== 'PAID' && val.status !== 'REISSUED') {
         const statusReleased = _.isEqual(val.status, 'RELEASED') && `e-DO ${val.edo_number} has been Released at ${(val.released_at)}`
@@ -827,7 +823,7 @@ export default {
                           style: 'label'
                         },
                         {
-                          text: edo.shipper_name,
+                          text: edo.shipper_name + '\r\n' + edo.shipper_address || '-',
                           style: 'content'
                         }
                       ]
@@ -900,7 +896,7 @@ export default {
                           style: 'label'
                         },
                         {
-                          text: edo.consignee_name,
+                          text: edo.consignee_name + '\r\n' + edo.consignee_address || '-',
                           style: 'content'
                         }
                       ]

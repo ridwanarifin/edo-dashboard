@@ -83,7 +83,7 @@
               </div>
               <v-skeleton-loader v-if="loadingDelete || $fetchState.pending" loading type="table-cell" />
               <div v-else class="font-weight-bold">
-                {{ created_at_formated }}
+                {{ $moment(edo.created_at).format("DD/MM/YYYY - hh:mm") }}
               </div>
             </v-col>
             <!-- end Created at -->
@@ -577,11 +577,7 @@ export default {
     isCanPrint () { return this.isNotEmpty && isAdminCanPrint(this.edo.status) },
     // eslint-disable-next-line
     isShowNotes () { return this.isNotEmpty && _.isEqual(this.edo.status, 'REJECTED') || _.isEqual(this.edo.status, 'HOLD ON') || _.isEqual(this.edo.status, 'ON HOLD') },
-    computeConfirmDelete () { return this.confirmDelete === this.edo.edo_number },
-    created_at_formated () {
-      const dateFormated = this.$moment(this.edo.created_at, 'DD-MM-YYYY hh:mm:ss', 'id')
-      return dateFormated.isValid() ? dateFormated.format('DD/MM/YYYY - hh:mm:ss') : this.edo.created_at
-    }
+    computeConfirmDelete () { return this.confirmDelete === this.edo.edo_number }
   },
 
   methods: {
@@ -642,7 +638,7 @@ export default {
                           style: 'label'
                         },
                         {
-                          text: edo.shipper_name,
+                          text: edo.shipper_name + '\r\n' + edo.shipper_address || '-',
                           style: 'content'
                         }
                       ]
@@ -715,7 +711,7 @@ export default {
                           style: 'label'
                         },
                         {
-                          text: edo.consignee_name,
+                          text: edo.consignee_name + '\r\n' + edo.consignee_address || '-',
                           style: 'content'
                         }
                       ]
