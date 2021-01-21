@@ -532,7 +532,7 @@ export default {
       const dateFormated = this.$moment(params)
 
       if (!dateFormated.isValid()) { return '-' }
-      return dateFormated.format('DD/MM/YYYY - hh:mm:ss')
+      return dateFormated.format('DD/MM/YYYY - hh:mm')
     },
     /**
      * Submit filter

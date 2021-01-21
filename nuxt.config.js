@@ -25,7 +25,15 @@ export default {
   },
 
   router: {
-    middleware: ['auth', 'breadcrumbs']
+    prefetchLinks: true,
+    middleware: ['auth', 'breadcrumbs'],
+    extendRoutes (routes, resolve) {
+      routes.push({
+        name: '404',
+        path: '*',
+        redirect: '/'
+      })
+    }
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
@@ -78,7 +86,7 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: 'https://backend.smufreight.com/'
+    baseURL: 'https://backend.smufreight.com:8086'
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)

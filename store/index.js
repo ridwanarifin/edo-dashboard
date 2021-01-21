@@ -1,6 +1,8 @@
 import qs from 'querystring'
 import jwtDecode from 'jwt-decode'
 import createPersistedState from 'vuex-persistedstate'
+import SecureLS from 'secure-ls'
+const ls = new SecureLS({ encodingType: 'aes', isCompression: false })
 
 export const state = () => ({
   pending: false
@@ -42,5 +44,11 @@ export const actions = {
 }
 
 export const plugins = [
-  createPersistedState()
+  createPersistedState({
+    storage: {
+      getItem: key => ls.get(key),
+      setItem: (key, value) => ls.set(key, value),
+      removeItem: key => ls.remove(key)
+    }
+  })
 ]

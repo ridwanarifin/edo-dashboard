@@ -8,6 +8,12 @@
     "type": "git",
     "url": "git+https://github.com/ridwanarifin/edo-dashboard.git"
   },
+  "config": {
+    "nuxt": {
+      "host": "0.0.0.0",
+      "port": "3000"
+    }
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
@@ -33,6 +39,7 @@
     "nuxt": "^2.14.6",
     "pdfmake": "^0.1.68",
     "querystring": "^0.2.0",
+    "secure-ls": "^1.2.6",
     "vee-validate": "^3.4.1",
     "vue-qrcode-reader": "^2.3.16",
     "vuex-persistedstate": "^4.0.0-beta.1"

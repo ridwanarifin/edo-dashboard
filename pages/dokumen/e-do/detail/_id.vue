@@ -622,6 +622,7 @@ export default {
 
     crete_pdf (e) {
       const edo = this.edo
+      const arrivalDateFormatted = this.$moment(this.edo.arrival_date).format('DD/MM/YYYY')
       const dateNow = this.$moment().format('DD/MM/YYYY')
 
       this.to_data_url(require('@/static/logo.png'), function (dataURL) {
@@ -798,7 +799,7 @@ export default {
                           style: 'label'
                         },
                         {
-                          text: edo.arrival_date,
+                          text: arrivalDateFormatted,
                           style: 'content'
                         }
                       ]

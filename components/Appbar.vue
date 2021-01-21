@@ -14,7 +14,7 @@
 
       <v-col cols="auto" class="pt-0">
         <v-skeleton-loader :loading="!$auth.$state.loggedIn" type="chip">
-          <v-menu transition="slide-y-transition" offset-y open-on-hover close-on-content-click>
+          <v-menu transition="slide-y-transition" offset-y close-on-content-click>
             <template #activator="{on, attrs}">
               <div class="text-h6 text-capitalize">
                 Hi, {{ $auth.user.role }} {{ $auth.user.name }}
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import Crumbs from '@/components/Breadcrumbs.vue'
+import Crumbs from '~/components/Breadcrumbs.vue'
 
 export default {
   components: { Crumbs },
@@ -59,7 +59,7 @@ export default {
 
   computed: {
     time () {
-      return this.momentDate.format('HH:mm:ss')
+      return this.momentDate.format('HH:mm')
     },
     date () {
       return this.momentDate.format('DD MMM YYYY')

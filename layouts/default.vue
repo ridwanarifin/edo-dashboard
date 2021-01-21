@@ -3,7 +3,7 @@
     <drawer-dashboard />
     <v-main id="main">
       <appbar class="mb-5 px-md-5" />
-      <nuxt />
+      <nuxt keep-alive />
     </v-main>
     <v-footer :absolute="false" app>
       <span>&copy; {{ $moment().format('YYYY') }}</span>
