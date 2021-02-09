@@ -9,7 +9,20 @@
 <script>
 import FormCreateUser from '~/components/form/FormCreateUser.vue'
 export default {
-  components: { FormCreateUser }
-
+  components: { FormCreateUser },
+  meta: {
+    crumbs: [{
+      text: 'User Management',
+      exact: true,
+      to: '/superadmin/user-management'
+    }, {
+      text: 'Create User',
+      exact: true,
+      to: '/superadmin/user-management/create'
+    }]
+  },
+  head: {
+    title: 'Create User | User Management - SCL e-DO'
+  }
 }
 </script>

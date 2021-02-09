@@ -35,6 +35,13 @@ export default {
     DialogEditUser,
     DialogDeleteUser
   },
+  meta: {
+    crumbs: [{
+      text: 'User Management',
+      exact: true,
+      to: '/superadmin/user-management'
+    }]
+  },
   async fetch () {
     await this.getAllUser()
   },
