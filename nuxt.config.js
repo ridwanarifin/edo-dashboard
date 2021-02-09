@@ -50,9 +50,12 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    '@/plugins/vee-validate',
-    '@/plugins/qrcode-generate',
-    '@/plugins/vue-qrcode.client'
+    '~/plugins/injects.js',
+    '~/plugins/vee-validate',
+    '~/plugins/axios.client.js',
+    '~/plugins/qrcode-generate',
+    '~/plugins/vue-qrcode.client',
+    '~/plugins/persistedState.client.js'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -81,7 +84,8 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    'vue-sweetalert2/nuxt'
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
@@ -118,10 +122,10 @@ export default {
           user: false,
           logout: false
         },
-        tokenType: false
+        tokenType: false,
+        autoFetchUser: false
       }
     },
-    autoFetchUser: false,
     resetOnError: true
   },
 

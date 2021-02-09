@@ -1,5 +1,5 @@
-const alignCenter = { align: 'center' }
-const style = { ...alignCenter, justify: 'center' }
+const align = { align: 'center' }
+const style = { ...align, justify: 'center' }
 
 export const HeaderTabSupervisorEDO = [{
   text: 'Release Date',
@@ -94,11 +94,11 @@ export const HeaderTableTabHistory = [{
 export const HeaderTableUser = [{
   text: 'E-mail',
   value: 'email',
-  ...style
+  align
 }, {
   text: 'Name',
   value: 'name',
-  ...style
+  align
 }, {
   text: 'Role',
   value: 'role',
@@ -106,6 +106,10 @@ export const HeaderTableUser = [{
 }, {
   text: 'Created At',
   value: 'created_at',
+  ...style
+}, {
+  text: 'Updated At',
+  value: 'updated_at',
   ...style
 }, {
   text: 'Action',
