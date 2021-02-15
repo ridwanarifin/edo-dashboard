@@ -7,8 +7,8 @@
     >
       <v-img
         class="mx-auto mb-10"
-        :src="require('~/assets/img/logo-scl-login.png')"
-        :lazy-src="require('~/assets/img/logo-scl-login.png')"
+        :src="require('~/assets/img/logo-scl.png')"
+        :lazy-src="require('~/assets/img/logo-scl.png')"
         min-width="auto"
         max-width="190"
       >

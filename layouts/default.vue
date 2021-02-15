@@ -1,34 +1,47 @@
 <template>
-  <v-app>
-    <drawer-dashboard />
+  <v-app style="background: #F5F5FB">
+    <lazy-app-drawer
+      :drawer="drawer"
+      :clipped="clipped"
+      :mini-variant="miniVariant"
+      @on-minivariant="on_click_minivariant"
+    />
+
+    <lazy-app-bar
+      :drawer="drawer"
+      :clipped="clipped"
+      :mini-variant="miniVariant"
+      @on-drawer="on_click_drawer"
+      @on-clipped="on_click_clipped"
+    />
+
     <v-main id="main">
-      <appbar class="mb-5 px-md-5" />
-      <nuxt keep-alive />
+      <lazy-app-toolbar class="mb-5 px-md-5" />
+      <nuxt />
     </v-main>
-    <v-footer :absolute="false" app>
+    <!-- <v-footer :absolute="false" app>
       <span>&copy; {{ $moment().format('YYYY') }}</span>
-    </v-footer>
+    </v-footer> -->
   </v-app>
 </template>
 
 <script>
-import DrawerDashboard from '@/components/DrawerDasboardScl.vue'
-import Appbar from '@/components/Appbar.vue'
-
 export default {
-  components: { DrawerDashboard, Appbar },
-  mounted () {
-    this.$nextTick(() => {
-      this.$nuxt.$loading.start()
-      setTimeout(() => this.$nuxt.$loading.finish(), 1500)
-    })
+  data: () => ({
+    clipped: false,
+    drawer: false,
+    miniVariant: false
+  }),
+  methods: {
+    on_click_drawer (args) {
+      this.drawer = args
+    },
+    on_click_minivariant (args) {
+      this.miniVariant = args
+    },
+    on_click_clipped (args) {
+      this.clipped = args
+    }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-  #main {
-    background-color: #F5F5FB !important;
-    height: auto !important;
-  }
-</style>

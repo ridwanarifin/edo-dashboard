@@ -35,6 +35,13 @@ export default {
     DialogEditUser,
     DialogDeleteUser
   },
+  meta: {
+    crumbs: [{
+      text: 'User Management',
+      exact: true,
+      to: '/superadmin/user-management'
+    }]
+  },
   async fetch () {
     await this.getAllUser()
   },
@@ -47,7 +54,7 @@ export default {
     'getAllUser'
   ]),
   head: {
-    title: 'User Management - SCL e-DO'
+    title: 'User Management — SCL e-DO'
   }
 }
 </script>
