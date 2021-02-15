@@ -1,4 +1,4 @@
-export default function ({ $axios, $swal, app }) {
+export default function ({ $axios, app }) {
   $axios.interceptors.response.use(
     function (response) {
       return response
@@ -8,7 +8,8 @@ export default function ({ $axios, $swal, app }) {
       const message = error.response && error.response.data && error.response.data.message
 
       if (message && message.includes('expired')) {
-        $swal({
+        app.$toast.clear()
+        app.$swal({
           icon: 'error',
           title: 'Expired',
           text: 'Token expired.',

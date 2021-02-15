@@ -44,7 +44,7 @@ export default {
   dokumen: [
     {
       title: 'Dashboard',
-      to: '/dokumen',
+      to: '/dokumen/e-do',
       icon: mdiHomeOutline
     },
     {

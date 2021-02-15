@@ -54,7 +54,7 @@ export default {
     'getAllUser'
   ]),
   head: {
-    title: 'User Management - SCL e-DO'
+    title: 'User Management — SCL e-DO'
   }
 }
 </script>

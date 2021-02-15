@@ -51,6 +51,8 @@ export default {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     '~/plugins/injects.js',
+    '~/plugins/filters.js',
+    '~/plugins/mixins.js',
     '~/plugins/vee-validate',
     '~/plugins/axios.client.js',
     '~/plugins/qrcode-generate',

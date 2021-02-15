@@ -22,7 +22,7 @@ export default {
     }]
   },
   head: {
-    title: 'Create User | User Management - SCL e-DO'
+    title: 'Create User | User Management — SCL e-DO'
   }
 }
 </script>
