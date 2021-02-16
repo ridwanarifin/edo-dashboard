@@ -13,7 +13,7 @@ export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     titleTemplate: '%s',
-    title: 'SCL e-DO',
+    title: 'SCL Dashboard',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -38,13 +38,13 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
+    '~/assets/styles/_main.scss'
   ],
 
   styleResources: {
     scss: [
       './assets/styles/_poly-fluid-sizing.scss',
-      './assets/styles/_variables.scss',
-      './assets/styles/_main.scss'
+      './assets/styles/_variables.scss'
     ]
   },
 
